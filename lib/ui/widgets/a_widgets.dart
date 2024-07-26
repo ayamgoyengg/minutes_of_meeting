@@ -1,0 +1,32 @@
+import 'dart:developer';
+import 'dart:io';
+import 'dart:math';
+import 'dart:ui';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:minutes_of_meeting/models/models.dart';
+import 'package:minutes_of_meeting/shared/shared.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:supercharged/supercharged.dart';
+import 'package:minutes_of_meeting/ui/pages/pages.dart';
+
+part 'background_image.dart';
+part 'custom_bottom_navbar.dart';
+part 'custom_text_field.dart';
+part 'logo.dart';
+part 'snack_bar.dart';
+part 'textfield.dart';
+part 'dialog.dart';
+part 'splash_screen.dart';
+part 'starting_app.dart';
+part 'loading.dart';
+part 'loadingbiasa.dart';
