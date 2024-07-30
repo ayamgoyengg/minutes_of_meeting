@@ -120,30 +120,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 image: NetworkImage(
                                                     "https://get.pxhere.com/photo/person-suit-profile-male-portrait-young-professional-profession-hairstyle-social-media-elegant-cv-businessperson-white-collar-worker-459413.jpg"),
                                                 fit: BoxFit.cover))),
-                                    //                 GestureDetector(
-                                    //                 onTap: () async {
-                                    //                   await _controllerPage.handleImagePickerUser();
-                                    //                 },
-                                    //                 child: Center(
-                                    //                   child: (_controllerPage.imageUser != null)
-                                    //                       ? Container(
-                                    //                           width: 110,
-                                    //                           height: 110,
-                                    //                           margin: const EdgeInsets.only(top: 26),
-                                    //                           padding: const EdgeInsets.all(5),
-                                    //                           decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/photo_border.png'))),
-                                    //                           child: Container(decoration: BoxDecoration(shape: BoxShape.circle, image: DecorationImage(image: FileImage(_controllerPage.imageUser!), fit: BoxFit.cover))),
-                                    //                         )
-                                    //                       : Container(
-                                    //                           width: 110,
-                                    //                           height: 110,
-                                    //                           margin: const EdgeInsets.only(top: 26),
-                                    //                           padding: const EdgeInsets.all(5),
-                                    //                           decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/photo_border.png'))),
-                                    //                           child: Container(decoration: const BoxDecoration(shape: BoxShape.circle, image: DecorationImage(image: AssetImage('assets/photo.png'), fit: BoxFit.cover))),
-                                    //                         ),
-                                    //                 ),
-                                    //               ),
                                     Positioned(
                                       bottom: 0,
                                       right: 0,
@@ -276,4 +252,3 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 }
-
