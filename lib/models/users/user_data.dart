@@ -17,7 +17,6 @@ class UserData {
   int? createdAt;
   int? updatedAt;
   String? profilePhotoUrl;
-  EmployeeData? employee;
 
   UserData({
     this.id,
@@ -35,7 +34,6 @@ class UserData {
     this.createdAt,
     this.updatedAt,
     this.profilePhotoUrl,
-    this.employee,
   });
 
   UserData.fromJson(Map<String, dynamic> json) {
@@ -54,7 +52,6 @@ class UserData {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     profilePhotoUrl = json['profile_photo_url'];
-    employee = json['employee'] != null ? EmployeeData.fromJson(json['employee']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -74,9 +71,6 @@ class UserData {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['profile_photo_url'] = profilePhotoUrl;
-    if (employee != null) {
-      data['employee'] = employee!.toJson();
-    }
     return data;
   }
 }

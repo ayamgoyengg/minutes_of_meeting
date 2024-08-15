@@ -1,13 +1,14 @@
 part of '../pages.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
+  final _controllerPage = Get.put(HomeController());
   TextEditingController _searchController = TextEditingController();
   String _searchText = '';
   // Variable to hold search query
@@ -59,11 +60,22 @@ class _MainPageState extends State<MainPage> {
       backgroundImage = 'assets/malam.jpg';
     }
     return MaterialApp(
-        theme: ThemeData(
-          scaffoldBackgroundColor: backgroundColor,
-        ),
-        title: "Home Page",
-        home: Scaffold(
+      theme: ThemeData(
+        scaffoldBackgroundColor: "#eee".toColor(),
+      ),
+      title: "Home Page",
+      home : RefreshIndicator(
+      onRefresh : () async {
+        await _controllerPage.initPage(context);
+      },
+      child: Scaffold(
+        backgroundColor: "#eee".toColor(),
+        body : GetBuilder<HomeController>(
+          initState: (state) async{
+            await _controllerPage.initPage(context);
+          },
+          builder: (_){
+            return Scaffold(
             extendBody: true,
             floatingActionButton: Stack(
               alignment: Alignment.center,
@@ -260,9 +272,8 @@ class _MainPageState extends State<MainPage> {
                             height: 45,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                image: const DecorationImage(
-                                    image: NetworkImage(
-                                        "https://get.pxhere.com/photo/person-suit-profile-male-portrait-young-professional-profession-hairstyle-social-media-elegant-cv-businessperson-white-collar-worker-459413.jpg"),
+                                image: DecorationImage(
+                                    image: NetworkImage("${PRO(context).userData?.profilePhotoUrl}"),
                                     fit: BoxFit.cover))),
                         const SizedBox(width: 10),
                         Column(
@@ -275,14 +286,14 @@ class _MainPageState extends State<MainPage> {
                                     style: firstStyle.copyWith(
                                         fontSize: 12, color: blackColor)),
                                 const SizedBox(width: 5),
-                                Text('Jamie!',
+                                Text('${PRO(context).userData?.name}',
                                     style: firstStyle.copyWith(
                                         fontSize: 12,
                                         color: mainColor,
                                         fontWeight: FontWeight.bold)),
                               ],
                             ),
-                            Text('Project Manager',
+                            Text('${PRO(context).userData?.roles}',
                                 style: firstStyle.copyWith(
                                     fontSize: 16,
                                     color: "#000".toColor(),
@@ -619,7 +630,14 @@ class _MainPageState extends State<MainPage> {
                       ]),
                     ],
                   )),
-                ]))));
+                ]))
+            );
+          }
+        )
+      )
+      )
+    );
+  
   }
 
   List<Widget> _buildFilteredCards() {

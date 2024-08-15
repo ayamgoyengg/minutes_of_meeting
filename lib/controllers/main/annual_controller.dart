@@ -3,6 +3,7 @@ part of '../controllers.dart';
 class AnnualController extends GetxController {
   List<EmpovertimeData> empovertimeData = [];
   List<PermissionData> permissionData = [];
+  List<StmeetingData> stmeetingData = [];
   List<InventoryrequestData> inventoryrequestData = [];
   List<ForgetattendanceData> forgetattendanceData = [];
 
@@ -41,6 +42,29 @@ class AnnualController extends GetxController {
           }
           listPermissionData.sort((a, b) => (b.idPermission ?? 0).compareTo(a.idPermission ?? 0));
           permissionData = listPermissionData;
+          update();
+        }
+        // snackBarsSuccess(message: "${resData?.metaData?.message ?? 'Berhasil'}");
+      } else {
+        // snackBarsError(message: "${resData?.metaData?.message ?? 'Berhasil'}");
+      }
+    } catch (e) {
+      // snackBarsError(message: 'Something wrong $e');
+    }
+  }
+
+  Future<void> getStmeetingData(BuildContext context) async {
+    try {
+      WrapResponse? resData = await Api().GET(stmeetingAPI, context, useSnackbar: false, useToken: true, useLoading: false);
+      log(resData?.statusCode.toString() ?? '');
+      if (resData?.statusCode == 200) {
+        if (resData?.data['data'] != null) {
+          List<StmeetingData> listStmeetingData = [];
+          for (var element1 in resData?.data['data']) {
+            listStmeetingData.add(StmeetingData.fromJson(element1));
+          }
+          listStmeetingData.sort((a, b) => (b.idStmeeting ?? 0).compareTo(a.idStmeeting ?? 0));
+          stmeetingData = listStmeetingData;
           update();
         }
         // snackBarsSuccess(message: "${resData?.metaData?.message ?? 'Berhasil'}");

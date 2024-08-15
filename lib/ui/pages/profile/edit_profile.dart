@@ -16,8 +16,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     super.initState();
 
     // Initialize the controllers with initial values
-    nameController.text = "Jamie";
-    emailController.text = "jamie@gmail.com";
+    nameController.text = "${PRO(context).userData?.name}";
+    emailController.text = "${PRO(context).userData?.email}";
 
     // Print initial values for verification
     print("Name Initial Value: ${nameController.text}");
@@ -116,9 +116,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(100),
-                                            image: const DecorationImage(
+                                            image: DecorationImage(
                                                 image: NetworkImage(
-                                                    "https://get.pxhere.com/photo/person-suit-profile-male-portrait-young-professional-profession-hairstyle-social-media-elegant-cv-businessperson-white-collar-worker-459413.jpg"),
+                                                    "${PRO(context).userData?.profilePhotoUrl}"),
                                                 fit: BoxFit.cover))),
                                     Positioned(
                                       bottom: 0,

@@ -25,6 +25,7 @@ String API_CALENDER = 'calendar';
 String API_WARNLETTER = 'warnletter';
 String payrollAPI = 'payroll';
 String empovertimeAPI = 'empovertime';
+String stmeetingAPI = 'stmeeting';
 String inventoryrequestAPI = 'inventoryrequest';
 String forgetattendanceAPI = 'forgetattendance';
 String permissionAPI = 'permission';

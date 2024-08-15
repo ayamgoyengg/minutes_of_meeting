@@ -137,7 +137,6 @@ bool validation(BuildContext context) {
         controllerUserID.text = userData.id.toString() ?? '';
         controllerEmpoyeeID.text = userData.employeeId.toString() ?? '';
         controllerDivisi.text = userData.personGroup.toString() ?? '';
-        controllerGaji.text = userData.employee?.detailemployee?.gajiPokok.toString() ?? '';
         await PRO(context).saveLocalUser(userData);
         conditionGetAPI = true;
         update;

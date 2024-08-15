@@ -29,3 +29,5 @@ part 'tnc/tnc_data.dart';
 part 'maintenance/maintenance_data.dart';
 part 'detailemployee/detailemployee_data.dart';
 part 'notifications/notification_data.dart';
+
+part 'stmeeting/stmeeting_data.dart';

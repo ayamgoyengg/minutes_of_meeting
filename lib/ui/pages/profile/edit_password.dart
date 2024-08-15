@@ -98,9 +98,9 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(100),
-                                        image: const DecorationImage(
+                                        image: DecorationImage(
                                             image: NetworkImage(
-                                                "https://get.pxhere.com/photo/person-suit-profile-male-portrait-young-professional-profession-hairstyle-social-media-elegant-cv-businessperson-white-collar-worker-459413.jpg"),
+                                                "${PRO(context).userData?.profilePhotoUrl}"),
                                             fit: BoxFit.cover))),
                               ],
                             ),

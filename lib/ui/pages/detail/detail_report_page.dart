@@ -56,16 +56,7 @@ class DetailReportPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
                           // color: "#ccc".toColor(),
-                          image: DecorationImage(
-                            image: PRO(context).userData?.profilePhotoPath != null
-                              ? NetworkImage('${PRO(context).userData?.profilePhotoUrl}')
-                              : AssetImage(
-                                  PRO(context).userData?.employee?.gender == "Male"
-                                      ? 'assets/co.png'
-                                      : 'assets/ce.png',
-                                ) as ImageProvider<Object>,
-                            fit: BoxFit.cover,
-                          ),
+                        
                         ),
                       ),
                       SizedBox(width: 10),

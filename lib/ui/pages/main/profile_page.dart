@@ -259,9 +259,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(100),
-                                        image: const DecorationImage(
+                                        image: DecorationImage(
                                             image: NetworkImage(
-                                                "https://get.pxhere.com/photo/person-suit-profile-male-portrait-young-professional-profession-hairstyle-social-media-elegant-cv-businessperson-white-collar-worker-459413.jpg"),
+                                                "${PRO(context).userData?.profilePhotoUrl}"),
                                             fit: BoxFit.cover))),
                                 const SizedBox(width: 10),
                                 Container(
@@ -276,14 +276,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          Text('Jamie',
+                                          Text('${PRO(context).userData?.name}',
                                               style: firstStyle.copyWith(
                                                   fontSize: 13,
                                                   color: blackColor,
                                                   fontWeight: FontWeight.bold)),
                                         ],
                                       ),
-                                      Text('Project Manager',
+                                      Text('${PRO(context).userData?.roles}',
                                           style: firstStyle.copyWith(
                                               fontSize: 17,
                                               color: blackColor,
