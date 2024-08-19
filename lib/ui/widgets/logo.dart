@@ -6,9 +6,9 @@ class Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      "assets/brainstorming.png",
-      width: MediaQuery.of(context).size.height / 6,
-      height: MediaQuery.of(context).size.height / 6,
+      "assets/logo.png",
+      width: MediaQuery.of(context).size.height / 5,
+      height: MediaQuery.of(context).size.height / 5,
     );
   }
 }

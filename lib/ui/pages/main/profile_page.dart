@@ -62,35 +62,38 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         actions: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                child: Text(
-                                  'Iya',
-                                  style: TextStyle(
-                                      color: Colors.blue, fontSize: 20),
-                                ),
-                                onPressed: () {
-                                  Get.to(const CreateMom1Page());
-                                },
-                              ),
-                              Container(
-                                height:
-                                    50, // Adjust height of the divider to match button height
-                                width:
-                                    1, // Adjust width of the divider as needed
-                                color: Colors.black12,
-                              ),
-                              TextButton(
-                                child: Text('Tidak',
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                  child: Text(
+                                    'Iya',
                                     style: TextStyle(
-                                        color: Colors.red, fontSize: 20)),
-                                onPressed: () {
-                                  Get.to(CreateMomPage());
-                                },
-                              ),
-                            ],
+                                        color: Colors.blue, fontSize: 20),
+                                  ),
+                                  onPressed: () {
+                                    Get.to(CreateMom1Page());
+                                  },
+                                ),
+                                Container(
+                                  height:
+                                      50, // Adjust height of the divider to match button height
+                                  width:
+                                      1, // Adjust width of the divider as needed
+                                  color: Colors.black12,
+                                ),
+                                TextButton(
+                                  child: Text('Tidak',
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 20)),
+                                  onPressed: () {
+                                    Get.to(CreateMomPage());
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       );
@@ -244,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                           color: widgetColor,
                           border: null,
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Column(
                         children: [
                           Container(
@@ -266,7 +269,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 const SizedBox(width: 10),
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
+                                      horizontal: 10, vertical: 10),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -285,7 +288,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       Text('${PRO(context).userData?.roles}',
                                           style: firstStyle.copyWith(
-                                              fontSize: 17,
+                                              fontSize: 16,
                                               color: blackColor,
                                               fontWeight: FontWeight.bold))
                                     ],

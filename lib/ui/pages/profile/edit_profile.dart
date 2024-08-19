@@ -98,7 +98,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ],
                           color: widgetColor,
                           border: null,
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Column(
                         children: [
                           Container(

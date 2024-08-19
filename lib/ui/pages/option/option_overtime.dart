@@ -211,7 +211,7 @@ class OptionOvertime extends StatelessWidget {
                 value: _controllerPage.selectedCategory,
                 isExpanded: true,
                 underline: const SizedBox(),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
                 items: _controllerPage.category.map<DropdownMenuItem<String>>((String item) {
                   return DropdownMenuItem<String>(
                     value: item,

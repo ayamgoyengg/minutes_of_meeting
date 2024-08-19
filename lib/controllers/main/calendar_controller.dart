@@ -1,6 +1,6 @@
 part of '../controllers.dart';
 
-class HomeController extends GetxController {
+class CalendarPageController extends GetxController {
   bool loadingWidget = false;
 
   void handleLoadingWidget() {
@@ -48,10 +48,8 @@ class HomeController extends GetxController {
         }
         listMeetingData.sort((a, b) => (b.idMeeting ?? 0).compareTo(a.idMeeting ?? 0));
         // Limit to the 3 most recent entries
-        meetingData = listMeetingData.take(3).toList();
-        update();
-        print(resData);
-        print('Successfully fetched data');
+        meetingData = listMeetingData;
+          update();
       }
     } else {
       print('Failed to fetch data');

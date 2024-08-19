@@ -87,8 +87,8 @@ class OptionNotification extends StatelessWidget {
             width: Get.width,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
               ),
               color: Colors.white,
             ),

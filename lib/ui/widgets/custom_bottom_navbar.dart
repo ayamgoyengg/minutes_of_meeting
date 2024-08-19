@@ -46,7 +46,7 @@ class CustomBottomNavBar extends StatelessWidget {
               ? Container(
                 padding:EdgeInsets.symmetric(vertical:3, horizontal: 10),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   color: mainColor
                 ),
                 child: Row(
@@ -72,7 +72,7 @@ class CustomBottomNavBar extends StatelessWidget {
               ? Container(
                 padding:EdgeInsets.symmetric(vertical:3, horizontal: 10),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   color: mainColor
                 ),
                 child: Row(
@@ -102,7 +102,7 @@ class CustomBottomNavBar extends StatelessWidget {
               ? Container(
                 padding:EdgeInsets.symmetric(vertical:3, horizontal: 10),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   color: mainColor
                 ),
                 child: Row(
@@ -128,7 +128,7 @@ class CustomBottomNavBar extends StatelessWidget {
               ? Container(
                 padding:EdgeInsets.symmetric(vertical:3, horizontal: 10),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   color: mainColor
                 ),
                 child: Row(

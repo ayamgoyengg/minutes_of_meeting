@@ -8,6 +8,31 @@ class EditMomPage extends StatefulWidget {
 }
 
 class _EditMomPageState extends State<EditMomPage> {
+  final _controllerPage = Get.put(HomeController());
+  List<DropdownMenuItem<String>> dropdownItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _populateDropdownItems();
+    controller = QuillEditorController();
+    controller.onTextChanged((text) {
+      debugPrint('listening to $text');
+    });
+  }
+
+  void _populateDropdownItems() {
+    // ignore: unnecessary_null_comparison
+    dropdownItems = _controllerPage.stmeetingData == null
+        ? []
+        : _controllerPage.stmeetingData.map((item) {
+            return DropdownMenuItem<String>(
+              value: item.name,
+              child: Text(item.name!),
+            );
+          }).toList();
+  }
+
   bool _showDatePicker = false;
   DateTime? _selectedDate;
   late QuillEditorController controller;
@@ -36,16 +61,6 @@ class _EditMomPageState extends State<EditMomPage> {
       fontFamily: 'Roboto');
   final _hintTextStyle = const TextStyle(
       fontSize: 18, color: Colors.black38, fontWeight: FontWeight.normal);
-
-  @override
-  void initState() {
-    controller = QuillEditorController();
-    controller.onTextChanged((text) {
-      debugPrint('listening to $text');
-    });
-
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -111,16 +126,15 @@ class _EditMomPageState extends State<EditMomPage> {
                         margin: EdgeInsets.symmetric(vertical: 5),
                         decoration: BoxDecoration(
                           color: forthColor,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
                                 child: DropdownButtonFormField<String>(
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Pilih Meeting',
                                     hintStyle: TextStyle(
@@ -128,19 +142,9 @@ class _EditMomPageState extends State<EditMomPage> {
                                       fontFamily: "Poppins",
                                     ),
                                     contentPadding:
-                                        EdgeInsets.only(left: 25, right: 25),
+                                        EdgeInsets.only(left: 20, right: 20),
                                   ),
-                                  items: [
-                                    DropdownMenuItem(
-                                      value: 'meeting1',
-                                      child: Text('Meeting 1'),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 'meeting2',
-                                      child: Text('Meeting 2'),
-                                    ),
-                                    // Add more DropdownMenuItem as needed
-                                  ],
+                                  items: dropdownItems,
                                   onChanged: (String? value) {
                                     // Handle dropdown value change here
                                     print('Selected value: $value');
@@ -158,10 +162,10 @@ class _EditMomPageState extends State<EditMomPage> {
                         margin: EdgeInsets.symmetric(vertical: 5),
                         decoration: BoxDecoration(
                           color: forthColor, // Replace with your desired color
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: EdgeInsets.symmetric( vertical: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -170,7 +174,7 @@ class _EditMomPageState extends State<EditMomPage> {
                                   style: ButtonStyle(
                                     padding:
                                         MaterialStateProperty.all<EdgeInsets>(
-                                      EdgeInsets.only(left: 25, right: 25),
+                                      EdgeInsets.only(left: 20, right: 20),
                                     ),
                                     tapTargetSize:
                                         MaterialTapTargetSize.shrinkWrap,
@@ -188,15 +192,15 @@ class _EditMomPageState extends State<EditMomPage> {
                                         child: Text(
                                           _selectedDate != null
                                               ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
-                                              : 'Select meeting date',
-                                          style: TextStyle(
+                                              : 'Pilih tanggal meeting',
+                                          style: const TextStyle(
                                             fontSize: 13,
                                             fontFamily: "Poppins",
                                             color: Colors.black54,
                                           ),
                                         ),
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.calendar_today,
                                         size: 20,
                                         color: Colors.black,
@@ -215,7 +219,7 @@ class _EditMomPageState extends State<EditMomPage> {
                           decoration: BoxDecoration(
                             color:
                                 forthColor, // Replace with your desired color
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -235,84 +239,81 @@ class _EditMomPageState extends State<EditMomPage> {
                           ),
                         ),
                       Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color: forthColor,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 35, vertical: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text("Notes",
-                                        style: TextStyle(
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w600)),
-                                  ],
-                                ),
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        decoration: BoxDecoration(
+                          color: forthColor,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text("Notes",
+                                      style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontWeight: FontWeight.w600)),
+                                ],
                               ),
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height / 1.5,
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Column(
-                                  children: [
-                                    ToolBar(
-                                      toolBarColor: _toolbarColor,
-                                      padding: const EdgeInsets.all(8),
-                                      iconSize: 15,
-                                      iconColor: _toolbarIconColor,
-                                      activeIconColor:
-                                          Colors.greenAccent.shade400,
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height / 1.5,
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                              child: Column(
+                                children: [
+                                  ToolBar(
+                                    toolBarColor: _toolbarColor,
+                                    padding: const EdgeInsets.all(8),
+                                    iconSize: 15,
+                                    iconColor: _toolbarIconColor,
+                                    activeIconColor:
+                                        Colors.greenAccent.shade400,
+                                    controller: controller,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.start,
+                                    direction: Axis.horizontal,
+                                  ),
+                                  Expanded(
+                                    child: QuillHtmlEditor(
+                                      hintText: 'Masukan catatan',
                                       controller: controller,
-                                      crossAxisAlignment:
-                                          WrapCrossAlignment.start,
-                                      direction: Axis.horizontal,
+                                      isEnabled: true,
+                                      minHeight: 300,
+                                      textStyle: _editorTextStyle,
+                                      hintTextStyle: _hintTextStyle,
+                                      hintTextAlign: TextAlign.start,
+                                      padding: const EdgeInsets.only(
+                                          left: 10, top: 10),
+                                      hintTextPadding:
+                                          const EdgeInsets.only(left: 20),
+                                      backgroundColor: backgroundColor,
+                                      onFocusChanged: (focus) {
+                                        debugPrint('has focus $focus');
+                                        setState(() {});
+                                      },
+                                      onTextChanged: (text) => debugPrint(
+                                          'widget text change $text'),
+                                      onEditorCreated: () {
+                                        debugPrint('Editor has been loaded');
+                                        setHtmlText('');
+                                      },
+                                      onEditorResized: (height) =>
+                                          debugPrint('Editor resized $height'),
+                                      onSelectionChanged: (sel) => debugPrint(
+                                          'index ${sel.index}, range ${sel.length}'),
                                     ),
-                                    Expanded(
-                                      child: QuillHtmlEditor(
-                                        text:
-                                            "<h1>Hello</h1>This is a quill html editor example 😊",
-                                        hintText: 'Masukan catatan',
-                                        controller: controller,
-                                        isEnabled: true,
-                                        minHeight: 300,
-                                        textStyle: _editorTextStyle,
-                                        hintTextStyle: _hintTextStyle,
-                                        hintTextAlign: TextAlign.start,
-                                        padding: const EdgeInsets.only(
-                                            left: 10, top: 10),
-                                        hintTextPadding:
-                                            const EdgeInsets.only(left: 20),
-                                        backgroundColor: backgroundColor,
-                                        onFocusChanged: (focus) {
-                                          debugPrint('has focus $focus');
-                                          setState(() {});
-                                        },
-                                        onTextChanged: (text) => debugPrint(
-                                            'widget text change $text'),
-                                        onEditorCreated: () {
-                                          debugPrint('Editor has been loaded');
-                                          setHtmlText('');
-                                        },
-                                        onEditorResized: (height) => debugPrint(
-                                            'Editor resized $height'),
-                                        onSelectionChanged: (sel) => debugPrint(
-                                            'index ${sel.index}, range ${sel.length}'),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          )),
+                            ),
+                          ],
+                        )),
                       Container(
+                        margin: EdgeInsets.only(top: 10),
                         child: Container(
-                          margin: EdgeInsets.only(top: 60),
                           child: SizedBox(
                             width: 300,
                             child: ElevatedButton(

@@ -224,8 +224,8 @@ class DetailReportPage extends StatelessWidget {
             appBar: AppBar(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
                 ),
               ),
               leading: IconButton(

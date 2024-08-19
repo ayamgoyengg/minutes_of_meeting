@@ -1,18 +1,14 @@
 part of '../pages.dart';
 
 class CreateMomPage extends StatefulWidget {
-  const CreateMomPage({super.key});
+  CreateMomPage({super.key});
 
   @override
-  State<CreateMomPage> createState() => _CreateMomPageState();
+  _CreateMomPageState createState() => _CreateMomPageState();
 }
 
 class _CreateMomPageState extends State<CreateMomPage> {
-  bool _showDatePicker = false;
-  DateTime? _selectedDate;
-  late QuillEditorController controller;
-
-  ///[customToolBarList] pass the custom toolbarList to show only selected styles in the editor
+  final _controllerPage = Get.put(OptionCreateMeetingController());
 
   final customToolBarList = [
     ToolBarStyle.bold,
@@ -39,19 +35,234 @@ class _CreateMomPageState extends State<CreateMomPage> {
 
   @override
   void initState() {
-    controller = QuillEditorController();
-    controller.onTextChanged((text) {
+    super.initState();
+    _controllerPage.controllerNotes.onTextChanged((text) {
       debugPrint('listening to $text');
     });
-
-    super.initState();
   }
 
   @override
   void dispose() {
-    /// please do not forget to dispose the controller
-    controller.dispose();
+    _controllerPage.controllerNotes.dispose();
     super.dispose();
+  }
+
+  Widget modalSelectDate(BuildContext context) {
+    return GetBuilder<OptionCreateMeetingController>(
+      builder: (_) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          color: Colors.black.withOpacity(0.5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 350,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                        spreadRadius: 3, blurRadius: 15, color: Colors.black12)
+                  ],
+                ),
+                child: SfDateRangePicker(
+                  controller: _controllerPage.controllerDatePicker,
+                  onSelectionChanged: _controllerPage.onSelectionChanged,
+                  headerStyle: DateRangePickerHeaderStyle(
+                      textAlign: TextAlign.center,
+                      textStyle: Theme.of(context).textTheme.titleLarge),
+                  headerHeight: 80,
+                  selectionMode: DateRangePickerSelectionMode.single,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget formData(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: ListView(
+          children: [
+            const SizedBox(height: 15),
+            CustomTextField3(
+              placeHolder: 'Masukkan id penerbit',
+              labelFrom: '',
+              controllerField: _controllerPage.controllerOwnerID,
+              readOnly: true,
+            ),
+            const SizedBox(height: 15),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      color: Color.fromARGB(31, 180, 180, 180))
+                ],
+              ),
+              child: DropdownButton<StmeetingData>(
+                value: _controllerPage.selectedStmeeting,
+                isExpanded: true,
+                hint: Text('Pilih Meeting'),
+                underline: const SizedBox(),
+                items: _controllerPage.stmeetingsData.map((e) {
+                  String displayText = e.name ?? '';
+                  if (e.meetings != null && e.meetings!.isNotEmpty) {
+                    String lastMeetingTitle = e.meetings!.last.title ?? '';
+                    displayText = '$displayText - $lastMeetingTitle';
+                  }
+                  return DropdownMenuItem(
+                    value: e,
+                    child: Text(
+                      displayText,
+                      style: blackFontStyle3,
+                    ),
+                  );
+                }).toList(),
+                onChanged: (item) {
+                  _controllerPage.handleSelectedStmeeting(item!);
+                },
+              ),
+            ),
+            const SizedBox(height: 15),
+            CustomTextField3(
+              placeHolder: 'Meeting ke -',
+              labelFrom: '',
+              controllerField: _controllerPage.controllerTitle,
+            ),
+            const SizedBox(height: 15),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      color: Color.fromARGB(31, 180, 180, 180))
+                ],
+              ),
+              child: DropdownButton<UserData>(
+                value: _controllerPage.selectedForward,
+                isExpanded: true,
+                hint: Text('CC Meeting'),
+                underline: const SizedBox(),
+                items: _controllerPage.forwardsData
+                    .map((e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(
+                          e.name ?? '',
+                          style: blackFontStyle3,
+                        )))
+                    .toList(),
+                onChanged: (item) {
+                  _controllerPage.handleSelectedForward(item!);
+                },
+              ),
+            ),
+            const SizedBox(height: 15),
+            CustomDateField(
+              placeHolder: 'DD/MM/YY',
+              labelFrom: '',
+              readOnly: true,
+              customFunction2: _controllerPage.handleShowModal,
+              controllerField: _controllerPage.controllerTanggal,
+              suffixIcon: const Icon(Icons.calendar_month),
+            ),
+            const SizedBox(height: 15),
+            CustomTextField3(
+              placeHolder: 'Password',
+              labelFrom: '',
+              controllerField: _controllerPage.controllerPassword,
+            ),
+            const SizedBox(height: 15),
+            Container(
+                margin: EdgeInsets.symmetric(vertical: 5),
+                decoration: BoxDecoration(
+                  color: forthColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("Notes",
+                              style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w600)),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height / 1.5,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      child: Column(
+                        children: [
+                          ToolBar(
+                            toolBarColor: _toolbarColor,
+                            padding: const EdgeInsets.all(8),
+                            iconSize: 15,
+                            iconColor: _toolbarIconColor,
+                            activeIconColor: Colors.greenAccent.shade400,
+                            controller: _controllerPage.controllerNotes,
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            direction: Axis.horizontal,
+                          ),
+                          Expanded(
+                            child: QuillHtmlEditor(
+                              hintText: 'Masukan catatan',
+                              controller: _controllerPage.controllerNotes,
+                              isEnabled: true,
+                              minHeight: 300,
+                              textStyle: _editorTextStyle,
+                              hintTextStyle: _hintTextStyle,
+                              hintTextAlign: TextAlign.start,
+                              padding: const EdgeInsets.only(left: 10, top: 10),
+                              hintTextPadding: const EdgeInsets.only(left: 20),
+                              backgroundColor: backgroundColor,
+                              onFocusChanged: (focus) {
+                                debugPrint('has focus $focus');
+                                setState(() {});
+                              },
+                              onTextChanged: (text) =>
+                                  debugPrint('widget text change $text'),
+                              onEditorCreated: () {
+                                debugPrint('Editor has been loaded');
+                                setHtmlText('');
+                              },
+                              onEditorResized: (height) =>
+                                  debugPrint('Editor resized $height'),
+                              onSelectionChanged: (sel) => debugPrint(
+                                  'index ${sel.index}, range ${sel.length}'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -59,322 +270,134 @@ class _CreateMomPageState extends State<CreateMomPage> {
     return MaterialApp(
       title: "Create MoM Page",
       theme: ThemeData(scaffoldBackgroundColor: backgroundColor),
-      home: Scaffold(
-        extendBody: true,
-        appBar: AppBar(
-          toolbarHeight: 80,
-          backgroundColor: backgroundColor,
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-          ),
-          title: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
+      home: RefreshIndicator(
+        onRefresh: () async {
+          await _controllerPage.initPage(context);
+        },
+        child: Scaffold(
+          extendBody: true,
+          appBar: AppBar(
+            toolbarHeight: 80,
+            backgroundColor: backgroundColor,
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+            ),
+            title: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
                     onTap: () {
-                      Get.back();
+                      Get.to(MainPage());
                       Navigator.of(context).pop();
                     },
                     child: Icon(MdiIcons.chevronLeft,
-                        size: 28, color: Colors.black38)),
-                Row(
-                  children: [
-                    Icon(MdiIcons.fileDocumentPlus,
-                        size: 25, color: blackColor),
-                    const SizedBox(width: 10),
-                    const Text(
-                      "Create Meeting",
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(width: 28)
-              ],
-            ),
-          ),
-        ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: Column(
+                        size: 28, color: Colors.black38),
+                  ),
+                  Row(
                     children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                          color: forthColor,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: DropdownButtonFormField<String>(
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Pilih Meeting',
-                                    hintStyle: TextStyle(
-                                      fontSize: 13,
-                                      fontFamily: "Poppins",
-                                    ),
-                                    contentPadding:
-                                        EdgeInsets.only(left: 25, right: 25),
-                                  ),
-                                  items: [
-                                    DropdownMenuItem(
-                                      value: 'meeting1',
-                                      child: Text('Meeting 1'),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: 'meeting2',
-                                      child: Text('Meeting 2'),
-                                    ),
-                                    // Add more DropdownMenuItem as needed
-                                  ],
-                                  onChanged: (String? value) {
-                                    // Handle dropdown value change here
-                                    print('Selected value: $value');
-                                  },
-                                  icon: Icon(MdiIcons.chevronDown,
-                                      size: 20,
-                                      color: blackColor), // Dropdown icon
-                                ),
-                              ),
-                            ],
-                          ),
+                      Icon(MdiIcons.fileDocumentPlus,
+                          size: 25, color: blackColor),
+                      const SizedBox(width: 10),
+                      const Text(
+                        "Create Meeting",
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15,
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                          color: forthColor, // Replace with your desired color
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                    padding:
-                                        MaterialStateProperty.all<EdgeInsets>(
-                                      EdgeInsets.only(left: 25, right: 25),
-                                    ),
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _showDatePicker =
-                                          !_showDatePicker; // Toggle date picker visibility
-                                    });
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          _selectedDate != null
-                                              ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
-                                              : 'Select meeting date',
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontFamily: "Poppins",
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.calendar_today,
-                                        size: 20,
-                                        color: Colors.black,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (_showDatePicker)
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color:
-                                forthColor, // Replace with your desired color
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Container(
-                              color: mainColor,
-                              child: SfDateRangePicker(
-                                onSelectionChanged:
-                                    (DateRangePickerSelectionChangedArgs args) {
-                                  setState(() {
-                                    _selectedDate = args.value;
-                                    _showDatePicker =
-                                        false; // Hide date picker after selection
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color: forthColor,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 35, vertical: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text("Notes",
-                                        style: TextStyle(
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w600)),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height / 1.5,
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Column(
-                                  children: [
-                                    ToolBar(
-                                      toolBarColor: _toolbarColor,
-                                      padding: const EdgeInsets.all(8),
-                                      iconSize: 15,
-                                      iconColor: _toolbarIconColor,
-                                      activeIconColor:
-                                          Colors.greenAccent.shade400,
-                                      controller: controller,
-                                      crossAxisAlignment:
-                                          WrapCrossAlignment.start,
-                                      direction: Axis.horizontal,
-                                    ),
-                                    Expanded(
-                                      child: QuillHtmlEditor(
-                                        hintText: 'Masukan catatan',
-                                        controller: controller,
-                                        isEnabled: true,
-                                        minHeight: 300,
-                                        textStyle: _editorTextStyle,
-                                        hintTextStyle: _hintTextStyle,
-                                        hintTextAlign: TextAlign.start,
-                                        padding: const EdgeInsets.only(
-                                            left: 10, top: 10),
-                                        hintTextPadding:
-                                            const EdgeInsets.only(left: 20),
-                                        backgroundColor: backgroundColor,
-                                        onFocusChanged: (focus) {
-                                          debugPrint('has focus $focus');
-                                          setState(() {});
-                                        },
-                                        onTextChanged: (text) => debugPrint(
-                                            'widget text change $text'),
-                                        onEditorCreated: () {
-                                          debugPrint('Editor has been loaded');
-                                          setHtmlText('');
-                                        },
-                                        onEditorResized: (height) => debugPrint(
-                                            'Editor resized $height'),
-                                        onSelectionChanged: (sel) => debugPrint(
-                                            'index ${sel.index}, range ${sel.length}'),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )),
-                      Container(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 60),
-                          child: SizedBox(
-                            width: 300,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xFFFF8F56)),
-                                onPressed: () {
-                                  Get.to(MainPage());
-                                },
-                                child: Text(
-                                  "Submit",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: blackColor),
-                                )),
-                          ),
-                        ),
-                      )
                     ],
                   ),
-                ),
-              ],
+                  const SizedBox(width: 28),
+                ],
+              ),
             ),
+          ),
+          body: GetBuilder<OptionCreateMeetingController>(
+            initState: (state) async => await _controllerPage.initPage(context),
+            builder: (_) {
+              return Stack(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      formData(context),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            onPressed: () async =>
+                                await _controllerPage.submit(context),
+                            style: ButtonStyle(
+                              minimumSize: MaterialStateProperty.all(
+                                  const Size(100, 40)),
+                              backgroundColor:
+                                  MaterialStateProperty.all(mainColor),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(8.0))),
+                            ),
+                            child: Text(
+                                PRO(context).selectedCategory == "English"
+                                    ? "Send"
+                                    : (PRO(context).selectedCategory ==
+                                            "Chinese"
+                                        ? "发送"
+                                        : "Kirim"),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w900))),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                  _controllerPage.showModal == true
+                      ? modalSelectDate(context)
+                      : Container(),
+                  _controllerPage.loadingWidget == true
+                      ? const LoadingWidget()
+                      : Container(),
+                ],
+              );
+            },
           ),
         ),
       ),
     );
   }
 
-  ///[getHtmlText] to get the html text from editor
   void getHtmlText() async {
-    String? htmlText = await controller.getText();
+    String? htmlText = await _controllerPage.controllerNotes.getText();
     debugPrint(htmlText);
   }
 
-  ///[setHtmlText] to set the html text to editor
   void setHtmlText(String text) async {
-    await controller.setText(text);
+    await _controllerPage.controllerNotes.setText(text);
   }
 
-  ///[insertNetworkImage] to set the html text to editor
   void insertNetworkImage(String url) async {
-    await controller.embedImage(url);
+    await _controllerPage.controllerNotes.embedImage(url);
   }
 
-  ///[insertVideoURL] to set the video url to editor
-  ///this method recognises the inserted url and sanitize to make it embeddable url
-  ///eg: converts youtube video to embed video, same for vimeo
   void insertVideoURL(String url) async {
-    await controller.embedVideo(url);
+    await _controllerPage.controllerNotes.embedVideo(url);
   }
 
-  /// to set the html text to editor
-  /// if index is not set, it will be inserted at the cursor postion
   void insertHtmlText(String text, {int? index}) async {
-    await controller.insertText(text, index: index);
+    await _controllerPage.controllerNotes.insertText(text, index: index);
   }
 
-  /// to clear the editor
-  void clearEditor() => controller.clear();
+  void clearEditor() => _controllerPage.controllerNotes.clear();
 
-  /// to enable/disable the editor
-  void enableEditor(bool enable) => controller.enableEditor(enable);
+  void enableEditor(bool enable) =>
+      _controllerPage.controllerNotes.enableEditor(enable);
 
-  /// method to un focus editor
-  void unFocusEditor() => controller.unFocus();
+  void unFocusEditor() => _controllerPage.controllerNotes.unFocus();
 }

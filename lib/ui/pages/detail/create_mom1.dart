@@ -1,13 +1,22 @@
 part of '../pages.dart';
 
-class CreateMom1Page extends StatefulWidget {
-  const CreateMom1Page({super.key});
+class CreateMom1Page extends StatelessWidget {
+  CreateMom1Page({super.key});
 
-  @override
-  State<CreateMom1Page> createState() => _CreateMom1PageState();
-}
+  final _controllerPage = Get.put(OptionStmeetingController());
 
-class _CreateMom1PageState extends State<CreateMom1Page> {
+  Widget formData(BuildContext context){
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal:20),
+        child: ListView(children:[
+          const SizedBox(height:20),
+          CustomTextField3(placeHolder: 'Masukkan nama perusahaan', labelFrom: '', controllerField: _controllerPage.controllerName)
+        ])
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,60 +60,36 @@ class _CreateMom1PageState extends State<CreateMom1Page> {
             ),
           ),
         ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: forthColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(
-                          width: 250,
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Masukan nama meeting',
-                                hintStyle: TextStyle(
-                                    fontSize: 13, fontFamily: "Poppins"),
-                                contentPadding:
-                                    EdgeInsets.only(left: 25, right: 25)),
-                          )),
-                      Icon(MdiIcons.pencil, size: 20, color: blackColor),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                child: Container(
-                  margin: EdgeInsets.only(top: 60),
-                  child: SizedBox(
-                    width: 300,
-                    child: ElevatedButton(
+        body: GetBuilder<OptionStmeetingController>(
+          initState: (state) async => await _controllerPage.initPage(context),
+          builder: (_) {
+            return Stack(
+              children:[
+                Column(children: <Widget>[
+                  formData(context),
+                  Container(
+                    margin: EdgeInsets.only(top: 60, bottom: 5),
+                    child: SizedBox(
+                      width: 300,
+                      child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFFFF8F56)),
-                        onPressed: () {
-                          Get.to(const CreateMomPage());
-                        },
+                        onPressed: () async => await _controllerPage.submit(context),
                         child: Text(
                           "Submit",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, color: blackColor),
-                        )),
-                  ),
+                        )
+                      ),
+                    ),
+                  )
+                ],
                 ),
-              )
-            ],
-          ),
-        ),
+                _controllerPage.loadingWidget == true ? const LoadingWidget(): Container(),
+              ]
+            );
+          }
+        )
       ),
     );
   }
