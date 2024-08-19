@@ -159,7 +159,7 @@ class _DetailMomPageState extends State<DetailMomPage> {
     );
 
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 14),
+      padding: EdgeInsets.symmetric(vertical: 15),
       child: GestureDetector(
         onTap: () {
           Get.to(AddDetailMomPage(
@@ -206,32 +206,32 @@ class _DetailMomPageState extends State<DetailMomPage> {
             Row(
               children: [
                 Container(
-                  width: 30,
-                  height: 30,
+                  width: 25,
+                  height: 25,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     color: forthColor,
                   ),
                   child: Center(
                     child: IconButton(
-                      icon: Icon(MdiIcons.pencil, color: mainColor, size: 13),
+                      icon: Icon(MdiIcons.pencil, color: mainColor, size: 9),
                       onPressed: () {
                         Get.to(EditMomPage());
                       },
                     ),
                   ),
                 ),
-                SizedBox(width: 15),
+                SizedBox(width: 10),
                 Container(
-                  width: 30,
-                  height: 30,
+                  width: 25,
+                  height: 25,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     color: forthColor,
                   ),
                   child: Center(
                     child: IconButton(
-                      icon: Icon(MdiIcons.share, color: mainColor, size: 13),
+                      icon: Icon(MdiIcons.share, color: mainColor, size: 9),
                       onPressed: () {
                         shareToWhatsApp(meeting.narasi!);
                       },
@@ -337,8 +337,7 @@ class _DetailMomPageState extends State<DetailMomPage> {
                                               widget.item.meetings!.isEmpty
                                           ? Container()
                                           : Container(
-                                              padding: const EdgeInsets.all(10),
-                                              width: 40,
+                                              width: 32,
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
@@ -384,14 +383,14 @@ class _DetailMomPageState extends State<DetailMomPage> {
                                                                     .meetings!
                                                                     .length -
                                                                 1) // Add separators except after the last item
-                                                          ...List.generate(5,
+                                                          ...List.generate(7,
                                                               (_) {
                                                             return Text(
                                                               '|',
                                                               style: firstStyle
                                                                   .copyWith(
                                                                       height:
-                                                                          .9,
+                                                                          .7,
                                                                       color: Colors
                                                                           .black),
                                                             );

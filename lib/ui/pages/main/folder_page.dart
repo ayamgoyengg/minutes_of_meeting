@@ -43,7 +43,10 @@ class _FolderPageState extends State<FolderPage> {
   Widget itemMeeting(StmeetingData item, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(DetailMomPage(item: item, meeting: MeetingData(),));
+        Get.to(DetailMomPage(
+          item: item,
+          meeting: MeetingData(),
+        ));
       },
       child: Container(
         width: MediaQuery.of(context).size.width - 40,
@@ -90,6 +93,14 @@ class _FolderPageState extends State<FolderPage> {
                     ],
                   )
                 ],
+              ),
+            ),
+            Text(
+              '${item.meetings?.length ?? 0} Meeting',
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w300,
+                fontSize: 10,
               ),
             ),
           ],

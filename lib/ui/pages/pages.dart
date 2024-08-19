@@ -45,7 +45,6 @@ part 'main/main_page.dart';
 part 'main/profile_page.dart';
 part 'main/folder_page.dart';
 part 'option/option_calendar.dart';
-part 'option/option_warnletter.dart';
 part 'profile/sign_in_page.dart';
 part 'option/option_overtime.dart';
 part 'detail/see_detail.dart';

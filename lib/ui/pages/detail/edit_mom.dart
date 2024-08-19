@@ -8,7 +8,7 @@ class EditMomPage extends StatefulWidget {
 }
 
 class _EditMomPageState extends State<EditMomPage> {
-  final _controllerPage = Get.put(HomeController());
+  final _controllerPage = Get.put(OptionEditMomController());
   List<DropdownMenuItem<String>> dropdownItems = [];
 
   @override
@@ -23,12 +23,12 @@ class _EditMomPageState extends State<EditMomPage> {
 
   void _populateDropdownItems() {
     // ignore: unnecessary_null_comparison
-    dropdownItems = _controllerPage.stmeetingData == null
+    dropdownItems = _controllerPage.meetingData == null
         ? []
-        : _controllerPage.stmeetingData.map((item) {
+        : _controllerPage.meetingData.map((item) {
             return DropdownMenuItem<String>(
-              value: item.name,
-              child: Text(item.name!),
+              value: item.title,
+              child: Text("Meeting ke-${item.title!} ${item.stmeeting?.name}"),
             );
           }).toList();
   }

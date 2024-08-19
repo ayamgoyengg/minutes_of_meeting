@@ -60,7 +60,7 @@ class _MainPageState extends State<MainPage> {
                         decoration: BoxDecoration(
                           color:
                               mainColor, // Change to your widgetBackgroundColor
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                     ),
@@ -90,7 +90,7 @@ class _MainPageState extends State<MainPage> {
                         ),
                       ),
                       Text(
-                        '${item.meetings?.length ?? 0} Meeting${item.meetings?.length == 1 ? '' : 's'}',
+                        '${item.meetings?.length ?? 0} Meeting',
                         style: TextStyle(
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.w300,

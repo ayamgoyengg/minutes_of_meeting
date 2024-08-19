@@ -30,7 +30,7 @@ part 'option/option_calender_controller.dart';
 part 'option/option_createmeeting.dart';
 part 'option/option_overtime_controller.dart';
 part 'option/option_payroll_controller.dart';
-part 'option/option_warnletter_controller.dart';
+part 'option/option_edit_mom_controller.dart';
 part 'option/option_inventory_controller.dart';
 part 'option/option_inventoryreq_controller.dart';
 part 'main/report_controller.dart';
