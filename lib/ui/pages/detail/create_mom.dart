@@ -288,8 +288,8 @@ class _CreateMomPageState extends State<CreateMomPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Get.to(MainPage());
                       Navigator.of(context).pop();
+                      Get.back();
                     },
                     child: Icon(MdiIcons.chevronLeft,
                         size: 28, color: Colors.black38),

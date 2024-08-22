@@ -10,6 +10,74 @@ class FolderPage extends StatefulWidget {
 class _FolderPageState extends State<FolderPage> {
   final _controllerPage = Get.put(AnualController());
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  insetPadding:
+                      EdgeInsets.symmetric(horizontal: 30, vertical: 24),
+                  title: const Center(
+                    child: Text(
+                      'Hello',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 25),
+                    ),
+                  ),
+                  content: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Keluar dari aplikasi?',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 17),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 16),
+                      Divider(
+                        color: Colors.black12,
+                        height: 1, // Adjust height of the divider
+                      ),
+                    ],
+                  ),
+                  actions: <Widget>[
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            child: Text(
+                              'Tidak',
+                              style: TextStyle(color: Colors.red, fontSize: 20),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          Container(
+                            height:
+                                50, // Adjust height of the divider to match button height
+                            width: 1, // Adjust width of the divider as needed
+                            color: Colors.black12,
+                          ),
+                          TextButton(
+                            child: Text(
+                              'Iya',
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            ),
+                            onPressed: () {
+                              SystemNavigator.pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ))) ??
+        false;
+  }
+
   Widget listMeeting(BuildContext context) {
     return GetBuilder<AnualController>(builder: (_) {
       return Container(
@@ -111,235 +179,239 @@ class _FolderPageState extends State<FolderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Folder Page",
-      theme: ThemeData(scaffoldBackgroundColor: backgroundColor),
-      home: RefreshIndicator(
-        onRefresh: () async {
-          await _controllerPage.initPage(context);
-        },
-        child: Scaffold(
-          extendBody: true,
-          floatingActionButton: Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                width: 56.0,
-                height: 56.0,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [mainColor, "#191919".toColor()],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: MaterialApp(
+        title: "Folder Page",
+        theme: ThemeData(scaffoldBackgroundColor: backgroundColor),
+        home: RefreshIndicator(
+          onRefresh: () async {
+            await _controllerPage.initPage(context);
+          },
+          child: Scaffold(
+            extendBody: true,
+            floatingActionButton: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: 56.0,
+                  height: 56.0,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [mainColor, "#191919".toColor()],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    shape: BoxShape.circle,
                   ),
-                  shape: BoxShape.circle,
                 ),
-              ),
-              FloatingActionButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          insetPadding: EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 24),
-                          title: const Center(
-                            child: Text(
-                              'Hello',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 25),
-                            ),
-                          ),
-                          content: const Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Apakah anda ingin membuat Minutes of Meeting untuk Klien ini untuk pertama kalinya?',
+                FloatingActionButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            insetPadding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 24),
+                            title: const Center(
+                              child: Text(
+                                'Hello',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 17),
-                                textAlign: TextAlign.center,
+                                    fontWeight: FontWeight.w700, fontSize: 25),
                               ),
-                              SizedBox(height: 16),
-                              Divider(
-                                color: Colors.black12,
-                                height: 1, // Adjust height of the divider
+                            ),
+                            content: const Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Apakah anda ingin membuat Minutes of Meeting untuk Klien ini untuk pertama kalinya?',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 17),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: 16),
+                                Divider(
+                                  color: Colors.black12,
+                                  height: 1, // Adjust height of the divider
+                                ),
+                              ],
+                            ),
+                            actions: <Widget>[
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextButton(
+                                      child: Text(
+                                        'Iya',
+                                        style: TextStyle(
+                                            color: Colors.blue, fontSize: 20),
+                                      ),
+                                      onPressed: () {
+                                        Get.to(CreateMom1Page());
+                                      },
+                                    ),
+                                    Container(
+                                      height:
+                                          50, // Adjust height of the divider to match button height
+                                      width:
+                                          1, // Adjust width of the divider as needed
+                                      color: Colors.black12,
+                                    ),
+                                    TextButton(
+                                      child: Text('Tidak',
+                                          style: TextStyle(
+                                              color: Colors.red, fontSize: 20)),
+                                      onPressed: () {
+                                        Get.to(CreateMomPage());
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
+                          );
+                        });
+                  },
+                  shape: const CircleBorder(),
+                  backgroundColor: mainColor,
+                  elevation: 0, // Remove the shadow
+                  child: Icon(MdiIcons.plus, size: 35, color: whiteColor),
+                ),
+              ],
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: BottomAppBar(
+              height: 60,
+              color: mainColor,
+              shape: const AutomaticNotchedShape(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                StadiumBorder(),
+              ),
+              notchMargin: 5,
+              child: Container(
+                padding: const EdgeInsets.only(left: 5, right: 5),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(MainPage());
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            MdiIcons.home,
+                            color: whiteColor,
+                            size: 25,
                           ),
-                          actions: <Widget>[
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextButton(
-                                    child: Text(
-                                      'Iya',
-                                      style: TextStyle(
-                                          color: Colors.blue, fontSize: 20),
-                                    ),
-                                    onPressed: () {
-                                      Get.to(CreateMom1Page());
-                                    },
-                                  ),
-                                  Container(
-                                    height:
-                                        50, // Adjust height of the divider to match button height
-                                    width:
-                                        1, // Adjust width of the divider as needed
-                                    color: Colors.black12,
-                                  ),
-                                  TextButton(
-                                    child: Text('Tidak',
-                                        style: TextStyle(
-                                            color: Colors.red, fontSize: 20)),
-                                    onPressed: () {
-                                      Get.to(CreateMomPage());
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
-                      });
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(CalendarPage());
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            MdiIcons.calendar,
+                            color: whiteColor,
+                            size: 25,
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(FolderPage());
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(MdiIcons.folder, color: blackColor, size: 25),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(ProfilePage());
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Icons.settings, color: whiteColor, size: 25),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            appBar: AppBar(
+              toolbarHeight: 80,
+              backgroundColor: backgroundColor,
+              systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: Colors.transparent,
+              ),
+              title: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.folder, size: 25, color: blackColor),
+                    const SizedBox(width: 10),
+                    const Text(
+                      "Folder Meeting",
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            body: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: GetBuilder<AnualController>(
+                initState: (state) async {
+                  await _controllerPage.initPage(context);
                 },
-                shape: const CircleBorder(),
-                backgroundColor: mainColor,
-                elevation: 0, // Remove the shadow
-                child: Icon(MdiIcons.plus, size: 35, color: whiteColor),
+                builder: (_) {
+                  return Container(
+                    child: _controllerPage.meetingData.isEmpty
+                        ? Center(
+                            child: Container(
+                                margin: EdgeInsets.only(bottom: 80),
+                                child: const Text(
+                                    'Anda tidak memiliki catatan meeting')),
+                          )
+                        : listMeeting(context),
+                  );
+                },
               ),
-            ],
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomAppBar(
-            height: 60,
-            color: mainColor,
-            shape: const AutomaticNotchedShape(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-              ),
-              StadiumBorder(),
-            ),
-            notchMargin: 5,
-            child: Container(
-              padding: const EdgeInsets.only(left: 5, right: 5),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(MainPage());
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          MdiIcons.home,
-                          color: whiteColor,
-                          size: 25,
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(CalendarPage());
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          MdiIcons.calendar,
-                          color: whiteColor,
-                          size: 25,
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(FolderPage());
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(MdiIcons.folder, color: blackColor, size: 25),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(ProfilePage());
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(Icons.settings, color: whiteColor, size: 25),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          appBar: AppBar(
-            toolbarHeight: 80,
-            backgroundColor: backgroundColor,
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent,
-            ),
-            title: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.folder, size: 25, color: blackColor),
-                  const SizedBox(width: 10),
-                  const Text(
-                    "Folder Meeting",
-                    style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          body: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: GetBuilder<AnualController>(
-              initState: (state) async {
-                await _controllerPage.initPage(context);
-              },
-              builder: (_) {
-                return Container(
-                  child: _controllerPage.meetingData.isEmpty
-                      ? Center(
-                          child: Container(
-                              margin: EdgeInsets.only(bottom: 80),
-                              child: const Text(
-                                  'Anda tidak memiliki catatan meeting')),
-                        )
-                      : listMeeting(context),
-                );
-              },
             ),
           ),
         ),

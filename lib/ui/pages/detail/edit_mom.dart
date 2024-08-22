@@ -1,7 +1,9 @@
 part of '../pages.dart';
 
 class EditMomPage extends StatefulWidget {
-  const EditMomPage({super.key});
+  final MeetingData item;
+
+  const EditMomPage({super.key, required this.item});
 
   @override
   State<EditMomPage> createState() => _EditMomPageState();
@@ -10,25 +12,66 @@ class EditMomPage extends StatefulWidget {
 class _EditMomPageState extends State<EditMomPage> {
   final _controllerPage = Get.put(OptionEditMomController());
   List<DropdownMenuItem<String>> dropdownItems = [];
+  String? _selectedDropdownValue;
 
   @override
   void initState() {
     super.initState();
-    _populateDropdownItems();
+    _controllerPage.controllerNotes.onTextChanged((text) {
+      debugPrint('listening to $text');
+    });
+    _controllerPage.initPage(context).then((_) {
+      _initializeEditor();
+      _initializeSelectedDate();
+      _populateDropdownItems();
+      // Set the initial value for the dropdown
+      _selectedDropdownValue = widget.item.idMt;
+      setState(() {}); // Update the UI to reflect the selected value
+    });
+
+
+    // Initialize QuillEditorController
     controller = QuillEditorController();
     controller.onTextChanged((text) {
       debugPrint('listening to $text');
     });
+
+    // Set the initial notes value
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setHtmlText(widget.item.notes.toString());
+    });
+
+    // Initialize the selected date
+  }
+
+  void _initializeSelectedDate() {
+    try {
+      // Parse the date string using DateTime.parse
+      _selectedDate = DateTime.parse(widget.item.date.toString());
+    } catch (e) {
+      debugPrint('Error parsing date: $e');
+      // Handle the error or set _selectedDate to null
+      _selectedDate = null;
+    }
+  }
+
+  void _initializeEditor() {
+    controller = QuillEditorController();
+    controller.onTextChanged((text) {
+      debugPrint('Text changed: $text');
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setHtmlText(widget.item.notes.toString());
+    });
   }
 
   void _populateDropdownItems() {
-    // ignore: unnecessary_null_comparison
-    dropdownItems = _controllerPage.meetingData == null
+    dropdownItems = _controllerPage.meetingData.isEmpty
         ? []
         : _controllerPage.meetingData.map((item) {
             return DropdownMenuItem<String>(
-              value: item.title,
-              child: Text("Meeting ke-${item.title!} ${item.stmeeting?.name}"),
+              value: item.idMt,
+              child: Text("Meeting ke-${item.title} ${item.stmeeting?.name}"),
             );
           }).toList();
   }
@@ -66,7 +109,12 @@ class _EditMomPageState extends State<EditMomPage> {
   void dispose() {
     /// please do not forget to dispose the controller
     controller.dispose();
+     _controllerPage.controllerNotes.dispose();
     super.dispose();
+  }
+
+  Widget editData(BuildContext context){
+    
   }
 
   @override
@@ -112,232 +160,21 @@ class _EditMomPageState extends State<EditMomPage> {
             ),
           ),
         ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                          color: forthColor,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: DropdownButtonFormField<String>(
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Pilih Meeting',
-                                    hintStyle: TextStyle(
-                                      fontSize: 13,
-                                      fontFamily: "Poppins",
-                                    ),
-                                    contentPadding:
-                                        EdgeInsets.only(left: 20, right: 20),
-                                  ),
-                                  items: dropdownItems,
-                                  onChanged: (String? value) {
-                                    // Handle dropdown value change here
-                                    print('Selected value: $value');
-                                  },
-                                  icon: Icon(MdiIcons.chevronDown,
-                                      size: 20,
-                                      color: blackColor), // Dropdown icon
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                          color: forthColor, // Replace with your desired color
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.symmetric( vertical: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                    padding:
-                                        MaterialStateProperty.all<EdgeInsets>(
-                                      EdgeInsets.only(left: 20, right: 20),
-                                    ),
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    alignment: Alignment.centerLeft,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _showDatePicker =
-                                          !_showDatePicker; // Toggle date picker visibility
-                                    });
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          _selectedDate != null
-                                              ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
-                                              : 'Pilih tanggal meeting',
-                                          style: const TextStyle(
-                                            fontSize: 13,
-                                            fontFamily: "Poppins",
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                      ),
-                                      const Icon(
-                                        Icons.calendar_today,
-                                        size: 20,
-                                        color: Colors.black,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (_showDatePicker)
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color:
-                                forthColor, // Replace with your desired color
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Container(
-                              color: mainColor,
-                              child: SfDateRangePicker(
-                                onSelectionChanged:
-                                    (DateRangePickerSelectionChangedArgs args) {
-                                  setState(() {
-                                    _selectedDate = args.value;
-                                    _showDatePicker =
-                                        false; // Hide date picker after selection
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                          color: forthColor,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 15),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text("Notes",
-                                      style: TextStyle(
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w600)),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height / 1.5,
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                              child: Column(
-                                children: [
-                                  ToolBar(
-                                    toolBarColor: _toolbarColor,
-                                    padding: const EdgeInsets.all(8),
-                                    iconSize: 15,
-                                    iconColor: _toolbarIconColor,
-                                    activeIconColor:
-                                        Colors.greenAccent.shade400,
-                                    controller: controller,
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.start,
-                                    direction: Axis.horizontal,
-                                  ),
-                                  Expanded(
-                                    child: QuillHtmlEditor(
-                                      hintText: 'Masukan catatan',
-                                      controller: controller,
-                                      isEnabled: true,
-                                      minHeight: 300,
-                                      textStyle: _editorTextStyle,
-                                      hintTextStyle: _hintTextStyle,
-                                      hintTextAlign: TextAlign.start,
-                                      padding: const EdgeInsets.only(
-                                          left: 10, top: 10),
-                                      hintTextPadding:
-                                          const EdgeInsets.only(left: 20),
-                                      backgroundColor: backgroundColor,
-                                      onFocusChanged: (focus) {
-                                        debugPrint('has focus $focus');
-                                        setState(() {});
-                                      },
-                                      onTextChanged: (text) => debugPrint(
-                                          'widget text change $text'),
-                                      onEditorCreated: () {
-                                        debugPrint('Editor has been loaded');
-                                        setHtmlText('');
-                                      },
-                                      onEditorResized: (height) =>
-                                          debugPrint('Editor resized $height'),
-                                      onSelectionChanged: (sel) => debugPrint(
-                                          'index ${sel.index}, range ${sel.length}'),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Container(
-                          child: SizedBox(
-                            width: 300,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xFFFF8F56)),
-                                onPressed: () {
-                                  Get.to(MainPage());
-                                },
-                                child: Text(
-                                  "Save",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: blackColor),
-                                )),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        body: GetBuilder<OptionEditMomController>(
+          initState: (state) async => await _controllerPage.initPage(context),
+          builder:(_){
+            return Stack(
+              children:[
+                Column(
+                  children: <Widget>[
+                    const SizedBox(height:10),
+                    editData(context)
+                  ]
+                )
+              ]
+            )
+          }
+        )
       ),
     );
   }

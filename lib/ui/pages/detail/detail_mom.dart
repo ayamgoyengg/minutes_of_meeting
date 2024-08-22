@@ -216,7 +216,7 @@ class _DetailMomPageState extends State<DetailMomPage> {
                     child: IconButton(
                       icon: Icon(MdiIcons.pencil, color: mainColor, size: 9),
                       onPressed: () {
-                        Get.to(EditMomPage());
+                        Get.to(EditMomPage(item: meeting));
                       },
                     ),
                   ),
@@ -337,7 +337,7 @@ class _DetailMomPageState extends State<DetailMomPage> {
                                               widget.item.meetings!.isEmpty
                                           ? Container()
                                           : Container(
-                                              width: 32,
+                                              width: 30,
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,

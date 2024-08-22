@@ -1,6 +1,7 @@
 part of '../controllers.dart';
 
 class OptionEditMomController extends GetxController {
+  final QuillEditorController controllerNotes = QuillEditorController();
   bool loadingWidget = false;
 
   void handleLoadingWidget() {
@@ -23,9 +24,8 @@ class OptionEditMomController extends GetxController {
           }
           listMeetingData
               .sort((a, b) => (b.idMeeting ?? 0).compareTo(a.idMeeting ?? 0));
-
-          update();
-          print(resData);
+          meetingData = listMeetingData; // Make sure this line is present
+          update(); // This updates the UI
           print('Successfully fetched data');
         }
       } else {
@@ -34,10 +34,39 @@ class OptionEditMomController extends GetxController {
       handleLoadingWidget();
     } catch (e) {
       handleLoadingWidget();
-      // Optional: Handle the error as needed
-      // snackBarsError(message: 'Something went wrong: $e');
+      print('Error: $e');
     }
   }
+
+  // edit
+  Future<void> edit(BuildContext context, MeetingData item) async {
+    handleLoadingWidget();
+    // Get the current text from the Quill editor
+    String notesText = await controllerNotes.getText();
+    MeetingData data = MeetingData(
+      notes: notesText,  // Use the text from Quill editor
+    );
+
+    WrapResponse? resData = await Api().POSTFORMDATA(
+      'update/$API_MEETING/${item.idMeeting}',
+      data.toJsonSend(),
+      context,
+      useSnackbar: true,
+      useToken: true,
+    );
+
+  if (resData?.statusCode == 200) {
+    snackBarsSuccess(
+      message: 'Data meeting berhasil di update',
+    );
+
+    Get.offAll(() => FolderPage());
+  } else {
+    snackBarsError(
+      message: 'Gagal edit data meeting',
+    );
+  }
+}
 
   Future<void> initPage(BuildContext context) async {
     await getMeeting(context);
