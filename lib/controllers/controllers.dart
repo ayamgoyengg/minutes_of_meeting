@@ -46,6 +46,7 @@ part 'option/option_tnc_controller.dart';
 part 'auth/auth_forgot_password_controller.dart';
 part 'auth/auth_edit_password_controller.dart';
 part 'auth/auth_edit_profile_controller.dart';
+part 'auth/auth_edit_photo_controller.dart';
 part 'auth/auth_user_data.dart';
 part 'option/option_notification_controller.dart';
 

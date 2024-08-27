@@ -108,38 +108,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Stack(
-                                  children: [
-                                    Container(
-                                        width: 100,
-                                        height: 100,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    "${PRO(context).userData?.profilePhotoUrl}"),
-                                                fit: BoxFit.cover))),
-                                    Positioned(
-                                      bottom: 0,
-                                      right: 0,
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          color: widgetColor,
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                        ),
-                                        child: Icon(
-                                          MdiIcons.plus,
-                                          size: 20,
-                                          color: Colors.black38,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                "${PRO(context).userData?.profilePhotoUrl}"),
+                                            fit: BoxFit.cover))),
                               ],
                             ),
                           ),

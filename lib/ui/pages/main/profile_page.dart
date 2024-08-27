@@ -329,16 +329,43 @@ class _ProfilePageState extends State<ProfilePage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  "${PRO(context).userData?.profilePhotoUrl}"),
-                                              fit: BoxFit.cover))),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.to(EditPhotoPage(user: UserData()));
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        "${PRO(context).userData?.profilePhotoUrl}"),
+                                                    fit: BoxFit.cover))),
+                                        Positioned(
+                                          bottom: 0,
+                                          right: 0,
+                                          child: Container(
+                                            width: 20,
+                                            height: 20,
+                                            decoration: BoxDecoration(
+                                              color: widgetColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                            ),
+                                            child: Icon(
+                                              MdiIcons.plus,
+                                              size: 20,
+                                              color: Colors.black38,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   const SizedBox(width: 10),
                                   Container(
                                     padding: EdgeInsets.symmetric(
@@ -396,7 +423,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(EditProfilePage(user: UserData(),));
+                                Get.to(EditProfilePage(
+                                  user: UserData(),
+                                ));
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(vertical: 10),

@@ -59,6 +59,7 @@ part 'option/option_tnc_page.dart';
 part 'option/option_contact_page.dart';
 part 'profile/auth_forget_password_page.dart';
 part 'profile/edit_profile.dart';
+part 'profile/edit_photo.dart';
 part 'profile/edit_password.dart';
 part 'option/option_notification_page.dart';
 part 'option/accessloc_page.dart';
