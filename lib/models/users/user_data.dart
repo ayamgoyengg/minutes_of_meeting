@@ -7,10 +7,9 @@ class UserData {
   String? personGroup;
   String? employeeId;
   String? email;
-  Null? emailVerifiedAt;
-  Null? twoFactorConfirmedAt;
-  String? currentTeamId;
-  // int? currentTeamId;
+  String? emailVerifiedAt; // Assuming this can be a String, otherwise it can be DateTime or another type
+  String? twoFactorConfirmedAt; // Same assumption as above
+  int? currentTeamId;
   String? profilePhotoPath;
   String? phone;
   String? roles;
@@ -45,12 +44,18 @@ class UserData {
     email = json['email'];
     emailVerifiedAt = json['email_verified_at'];
     twoFactorConfirmedAt = json['two_factor_confirmed_at'];
-    currentTeamId = json['current_team_id'];
+    currentTeamId = json['current_team_id'] is String 
+        ? int.tryParse(json['current_team_id']) 
+        : json['current_team_id'];
     profilePhotoPath = json['profile_photo_path'];
     phone = json['phone'];
     roles = json['roles'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    createdAt = json['created_at'] is String 
+        ? int.tryParse(json['created_at']) 
+        : json['created_at'];
+    updatedAt = json['updated_at'] is String 
+        ? int.tryParse(json['updated_at']) 
+        : json['updated_at'];
     profilePhotoUrl = json['profile_photo_url'];
   }
 
@@ -71,6 +76,13 @@ class UserData {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['profile_photo_url'] = profilePhotoUrl;
+    return data;
+  }
+
+  Map<String, dynamic> toJsonSend() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['email'] = email;
     return data;
   }
 }

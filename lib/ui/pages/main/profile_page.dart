@@ -396,7 +396,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(EditProfilePage());
+                                Get.to(EditProfilePage(user: UserData(),));
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(vertical: 10),

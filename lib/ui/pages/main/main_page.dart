@@ -523,7 +523,7 @@ class _MainPageState extends State<MainPage> {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        Get.to(EditProfilePage());
+                                        Get.to(EditProfilePage(user: UserData()));
                                       },
                                       child: Container(
                                           width: 45,

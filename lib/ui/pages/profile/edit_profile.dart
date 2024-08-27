@@ -1,27 +1,27 @@
 part of '../pages.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key});
+  final UserData user;
+  const EditProfilePage({super.key, required this.user});
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  final _controllerPage = Get.put(AuthEPController());
 
   @override
   void initState() {
     super.initState();
 
     // Initialize the controllers with initial values
-    nameController.text = "${PRO(context).userData?.name}";
-    emailController.text = "${PRO(context).userData?.email}";
+    _controllerPage.controllerName.text = "${PRO(context).userData?.name}";
+    _controllerPage.controllerEmail.text = "${PRO(context).userData?.email}";
 
     // Print initial values for verification
-    print("Name Initial Value: ${nameController.text}");
-    print("Email Initial Value: ${emailController.text}");
+    print("Name Initial Value: ${_controllerPage.controllerName.text}");
+    print("Email Initial Value: ${_controllerPage.controllerEmail.text}");
   }
 
   @override
@@ -169,7 +169,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         SizedBox(
                                             width: 230,
                                             child: TextField(
-                                              controller: nameController,
+                                              controller: _controllerPage
+                                                  .controllerName,
                                               decoration: InputDecoration(
                                                   border: InputBorder.none,
                                                   contentPadding:
@@ -208,7 +209,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         SizedBox(
                                             width: 230,
                                             child: TextField(
-                                              controller: emailController,
+                                              controller: _controllerPage
+                                                  .controllerEmail,
                                               decoration: InputDecoration(
                                                   border: InputBorder.none,
                                                   contentPadding:
@@ -226,24 +228,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       )),
                 ),
                 Container(
+                  margin: EdgeInsets.only(top: 10),
                   child: Container(
-                    margin: EdgeInsets.only(top: 60),
                     child: SizedBox(
                       width: 300,
                       child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFFF8F56)),
-                          onPressed: () {
-                            Get.to(ProfilePage());
-                          },
-                          child: Text(
-                            "Save",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, color: blackColor),
-                          )),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFFFF8F56)),
+                        onPressed: () async {
+                          await _controllerPage.edit(context, widget.user);
+                        },
+                        child: Text(
+                          "Save",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, color: blackColor),
+                        ),
+                      ),
                     ),
                   ),
-                )
+                ),
               ],
             )
           ]),

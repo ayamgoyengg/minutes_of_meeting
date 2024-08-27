@@ -1,54 +1,79 @@
 part of '../controllers.dart';
 
 class AuthEPController extends GetxController {
-  String selectedDate = '';
+  TextEditingController controllerName = TextEditingController();
+  TextEditingController controllerEmail = TextEditingController();
 
-  TextEditingController emailField = TextEditingController();
-  TextEditingController phoneField = TextEditingController();
+  bool loadingWidget = false;
 
+  void handleLoadingWidget() {
+    loadingWidget = !loadingWidget;
+    update();
+  }
 
+  List<UserData> userData = [];
 
-  Future<void> submit(BuildContext context) async {
-    bool checkEmailValid = GetUtils.isEmail(emailField.text);
-    if (checkEmailValid == true) {
-      var payload = UserEditProfile(
-        email: emailField.text, 
-        phone: phoneField.text, 
-      );
-      Loading.show(context: context);
-      WrapResponse? resData = await Api().POSTFORMDATA(API_USER, payload.toJson(), context, useSnackbar: true, useToken: true);
+  Future<void> getUser(BuildContext context) async {
+    try {
+      handleLoadingWidget();
+      WrapResponse? resData = await Api()
+          .GET(API_USER, context, useSnackbar: false, useToken: true);
       if (resData?.statusCode == 200) {
-        emailField.clear();
-        phoneField.clear();
-        update();
-        WrapResponse? resGetData = await Api().GET(API_USER, context, useToken: true);
-        UserData? userData = UserData.fromJson(resGetData?.data);
-        userData.token = PRO(context).userData?.token;
-        await PRO(context).saveLocalUser(userData);
-        snackBarsSuccess(message: 
-          PRO(context).selectedCategory == "English" 
-              ? "Profile successfully changed" 
-              : (PRO(context).selectedCategory == "Chinese"
-                  ? "Profile successfully changed"
-                  : "Profile berhasil diganti"),
-        );
-        Get.offAll(() => MainPage());
+        if (resData?.data['data'] != null) {
+          List<UserData> listUserData = [];
+          for (var element1 in resData?.data['data']) {
+            listUserData.add(UserData.fromJson(element1));
+          }
+          listUserData
+              .sort((a, b) => (b.id ?? 0).compareTo(a.id ?? 0));
+          userData = listUserData; // Make sure this line is present
+          update(); // This updates the UI
+          print('Successfully fetched data');
+        }
       } else {
-        snackBars(message: resData?.message ?? "");
+        print('Failed to fetch data');
       }
-    } else {
-      snackBarsError(message: 
-        PRO(context).selectedCategory == "English" 
-              ? "Please enter email correctly" 
-              : (PRO(context).selectedCategory == "Chinese"
-                  ? "Please enter email correctly"
-                  : "Tolong masukkan email dengan benar"),
-      );
+      handleLoadingWidget();
+    } catch (e) {
+      handleLoadingWidget();
+      print('Error: $e');
     }
   }
 
+  // edit
+  Future<void> edit(BuildContext context, UserData user) async {
+    handleLoadingWidget();
+    // Get the current text from the Quill editor
+    String nameText = controllerName.text;
+    String emailText = controllerEmail.text;
+
+    UserData data = UserData(
+      name: nameText,
+      email: emailText
+    );
+
+    WrapResponse? resData = await Api().POSTFORMDATA(
+      'update/$API_USER/${user.id}',
+      data.toJsonSend(),
+      context,
+      useSnackbar: true,
+      useToken: true,
+    );
+
+  if (resData?.statusCode == 200) {
+    snackBarsSuccess(
+      message: 'Data meeting berhasil di update',
+    );
+
+    Get.offAll(() => FolderPage());
+  } else {
+    snackBarsError(
+      message: 'Gagal edit data meeting',
+    );
+  }
+}
+
   Future<void> initPage(BuildContext context) async {
-    emailField.text = PRO(context).userData?.email ?? '';
-    phoneField.text = PRO(context).userData?.phone ?? '';
+    await getUser(context);
   }
 }
