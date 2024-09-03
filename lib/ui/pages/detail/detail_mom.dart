@@ -206,15 +206,15 @@ class _DetailMomPageState extends State<DetailMomPage> {
             Row(
               children: [
                 Container(
-                  width: 25,
-                  height: 25,
+                  width: 27,
+                  height: 27,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     color: forthColor,
                   ),
                   child: Center(
                     child: IconButton(
-                      icon: Icon(MdiIcons.pencil, color: mainColor, size: 9),
+                      icon: Icon(MdiIcons.pencil, color: mainColor, size: 12),
                       onPressed: () {
                         Get.to(EditMomPage(item: meeting));
                       },
@@ -223,15 +223,15 @@ class _DetailMomPageState extends State<DetailMomPage> {
                 ),
                 SizedBox(width: 10),
                 Container(
-                  width: 25,
-                  height: 25,
+                  width: 27,
+                  height: 27,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     color: forthColor,
                   ),
                   child: Center(
                     child: IconButton(
-                      icon: Icon(MdiIcons.share, color: mainColor, size: 9),
+                      icon: Icon(MdiIcons.share, color: mainColor, size: 12),
                       onPressed: () {
                         shareToWhatsApp(meeting.narasi!);
                       },

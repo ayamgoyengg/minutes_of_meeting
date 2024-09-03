@@ -10,7 +10,7 @@ class UserData {
   String? emailVerifiedAt; // Assuming this can be a String, otherwise it can be DateTime or another type
   String? twoFactorConfirmedAt; // Same assumption as above
   int? currentTeamId;
-  String? profilePhotoPath;
+  dynamic profilePhotoPath;
   String? phone;
   String? roles;
   int? createdAt;
@@ -83,6 +83,9 @@ class UserData {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['email'] = email;
+    // Include the profile photo path
+    data['profile_photo_path'] = profilePhotoPath;
     return data;
   }
+
 }

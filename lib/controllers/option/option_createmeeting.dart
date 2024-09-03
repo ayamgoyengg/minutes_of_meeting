@@ -45,7 +45,7 @@ class OptionCreateMeetingController extends GetxController {
 
   Future<void> getForwardsData(BuildContext context) async {
     try {
-      WrapResponse? resData = await Api().GET(API_ALLUSER, context, useSnackbar: false, useToken: true);
+      WrapResponse? resData = await Api().GET(API_USER, context, useSnackbar: false, useToken: true);
       if (resData?.data['data'] != null) {
         List<UserData> listForwardsData = [];
         for (var element1 in resData?.data['data']) {

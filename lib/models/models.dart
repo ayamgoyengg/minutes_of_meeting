@@ -31,3 +31,4 @@ part 'notifications/notification_data.dart';
 
 part 'stmeeting/stmeeting_data.dart';
 part 'meeting/meeting_data.dart';
+part 'users/user_edit_photo.dart';

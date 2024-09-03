@@ -2,16 +2,30 @@ part of '../controllers.dart';
 
 class AuthEditPasswordController extends GetxController {
   Widget? validatePassword;
-  bool obsecureText = true;
+  bool obsecureText1 = true;
+  bool obsecureText2 = true;
+  bool obsecureText3 = true;
 
+  TextEditingController oldPasswordField = TextEditingController();
   TextEditingController passwordField = TextEditingController();
   TextEditingController confirmPasswordField = TextEditingController();
-  TextEditingController oldPasswordField = TextEditingController();
+  
 
-  void toggleObsecureText() {
-    obsecureText = !obsecureText;
+  void toggleObsecureText1() {
+    obsecureText1 = !obsecureText1;
     update();
   }
+
+  void toggleObsecureText2() {
+    obsecureText2 = !obsecureText2;
+    update();
+  }
+
+  void toggleObsecureText3() {
+    obsecureText3 = !obsecureText3;
+    update();
+  }
+
 
   void onChangePassword(String val) {
     if (val.isEmpty) {

@@ -58,130 +58,124 @@ class _EditPhotoPageState extends State<EditPhotoPage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Stack(children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 40,
-              decoration: BoxDecoration(
-                color: mainColor,
-                borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(50.0),
-                    bottomLeft: Radius.circular(50.0)),
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                      padding: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      height: 450,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 4,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                          color: widgetColor,
-                          border: null,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          width: 220,
-                                          height: 220,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  "${PRO(context).userData?.profilePhotoUrl}"),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          child: Stack(
-                                            children: [
-                                              // Semi-transparent overlay
-                                              Container(
-                                                width: 220,
-                                                height: 220,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  color: Colors.black.withOpacity(
-                                                      0.5), // Adjust the opacity here
-                                                ),
-                                              ),
-                                              // The image itself
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 220,
-                                          height: 220,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                          ),
-                                          child: Center(
-                                            child: Icon(
-                                              Icons.camera_alt,
-                                              color: Colors.black,
-                                              size: 50,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )),
-                        ],
-                      )),
-                ),
+        body: GetBuilder<AuthEditPhotoController>(
+          initState:(state)async{
+            await _controllerPage.initPage(context);
+          },
+          builder: (_){
+            return SingleChildScrollView(
+              child: Stack(children: [
                 Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Container(
-                    child: SizedBox(
-                      width: 300,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFFF8F56)),
-                        onPressed: () async {
-                          await _controllerPage.edit(context, widget.user);
-                        },
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, color: blackColor),
+                  width: MediaQuery.of(context).size.width,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: mainColor,
+                    borderRadius: const BorderRadius.only(
+                        bottomRight: Radius.circular(50.0),
+                        bottomLeft: Radius.circular(50.0)),
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                          padding: const EdgeInsets.all(10),
+                          width: MediaQuery.of(context).size.width * 0.90,
+                          height: 450,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 4,
+                                  offset:
+                                      Offset(0, 3), // changes position of shadow
+                                ),
+                              ],
+                              color: widgetColor,
+                              border: null,
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () async {
+                                          await _controllerPage.handlePickImageUser(context);
+                                        },
+                                        child: Center(
+                                          child: (_controllerPage.pickImageUser != null)
+                                              ? Container(
+                                                  width: 200,
+                                                  height: 200,
+                                                  padding: const EdgeInsets.all(5),
+                                                  decoration: const BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: AssetImage(
+                                                              'assets/photo_border.png'))),
+                                                  child: Container(
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          image: DecorationImage(
+                                                              image: FileImage(
+                                                                  _controllerPage
+                                                                      .pickImageUser!),
+                                                              fit: BoxFit.cover))),
+                                                )
+                                              : Container(
+                                                  width: 200,
+                                                  height: 200,
+                                                  padding: const EdgeInsets.all(5),
+                                                  decoration: const BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: AssetImage(
+                                                              'assets/photo_border.png'))),
+                                                  child: Container(
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          image: DecorationImage(
+                                                              image: NetworkImage(
+                                                                  "${PRO(context).userData?.profilePhotoUrl}"),
+                                                              fit: BoxFit.cover))),
+                                                ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ],
+                          )),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: Container(
+                        child: SizedBox(
+                          width: 300,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFFFF8F56)),
+                            onPressed: () async => await _controllerPage.submitPhoto(context),
+                            child: Text(
+                              "Save",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, color: blackColor),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ],
-            )
-          ]),
-        ),
+                  ],
+                )
+              ]),
+            );
+          }
+        )
       ),
     );
   }

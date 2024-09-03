@@ -43,4 +43,3 @@ String API_NOTIFICATION = 'notification';
 
 String API_MEETING = 'meeting';
 String API_STMEETING = 'stmeeting';
-String API_ALLUSER = 'alluser';

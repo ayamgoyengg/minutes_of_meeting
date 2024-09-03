@@ -10,7 +10,6 @@ class AuthSignInController extends GetxController {
 
   TextEditingController emailField = TextEditingController();
   TextEditingController passwodField = TextEditingController();
-  MaintenanceData? maintenanceData;
 
   void toggleObsecureText() {
     obsecureText = !obsecureText;
@@ -31,19 +30,6 @@ class AuthSignInController extends GetxController {
   void handleTnc() {
     checkTnC = !checkTnC;
     update();
-  }
-
-  Future<void> getMaintenanceData(BuildContext context) async {
-    WrapResponse? resData = await Api().GET(API_MAINTENANCE, context);
-    if (resData?.data['data'] != null) {
-      List<MaintenanceData> listMaintenanceData = [];
-      for (var element1 in resData?.data['data']) {
-        listMaintenanceData.add(MaintenanceData.fromJson(element1));
-      }
-      print(listMaintenanceData);
-      maintenanceData = listMaintenanceData.isEmpty ? null : listMaintenanceData[0];
-      update();
-    }
   }
 
   Future<void> submit(BuildContext context) async {
@@ -107,7 +93,6 @@ class AuthSignInController extends GetxController {
   }
 
   Future<void> initPage(BuildContext context) async {
-    await getMaintenanceData(context);
     getAppVersion();
     getImei();
   }

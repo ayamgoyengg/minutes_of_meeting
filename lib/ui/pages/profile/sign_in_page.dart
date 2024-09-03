@@ -169,7 +169,7 @@ class SignInPage extends StatelessWidget {
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(60))),
             toolbarHeight: 200,
-            backgroundColor: Color(0xFFFF8F56),
+            backgroundColor: mainColor,
             title: Container(
               margin: EdgeInsets.only(bottom: 20),
               child: Align(
@@ -189,7 +189,6 @@ class SignInPage extends StatelessWidget {
                   ],
                 ),
               ),
-              color: Color(0xFFFF8F56),
             ),
           ),
           body: GetBuilder<AuthSignInController>(
@@ -197,108 +196,6 @@ class SignInPage extends StatelessWidget {
               await _controllerPage.initPage(context);
             },
             builder: (_) {
-              if (_controllerPage.maintenanceData?.status == "ACTIVE") {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  showDialog(
-                    context: context,
-                    barrierDismissible:
-                        false, // Mencegah dialog dari ditutup ketika pengguna menyentuh area lain
-                    builder: (BuildContext context) {
-                      return WillPopScope(
-                        // Mencegah dialog ditutup ketika pengguna menekan tombol back
-                        onWillPop: () async => false,
-                        child: AlertDialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          contentPadding: EdgeInsets.zero,
-                          content: Stack(
-                            children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Center(
-                                    child: Container(
-                                      margin:
-                                          const EdgeInsets.only(bottom: 140),
-                                      width: 200,
-                                      child: const Image(
-                                        image: AssetImage('assets/mtc.gif'),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Positioned(
-                                top: 180,
-                                left: 0,
-                                right: 0,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        '${_controllerPage.maintenanceData?.title}',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 20),
-                                      child: Text(
-                                        '${_controllerPage.maintenanceData?.description}',
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            SystemNavigator.pop();
-                                          },
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all<
-                                                    Color>(mainColor),
-                                            shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(7),
-                                              ),
-                                            ),
-                                          ),
-                                          child: Text(
-                                            PRO(context).selectedCategory ==
-                                                    "English"
-                                                ? "Close"
-                                                : (PRO(context)
-                                                            .selectedCategory ==
-                                                        "Chinese"
-                                                    ? "关闭应用程序"
-                                                    : "Tutup Aplikasi"),
-                                            style: GoogleFonts.poppins(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                });
-              }
               return Stack(
                 children: [
                   Column(

@@ -213,6 +213,75 @@ class Api {
     }
   }
 
+  Future<WrapResponse?> USERDATA(
+    String url,
+    UserEditPhoto data,
+    File file,
+    BuildContext context, {
+    bool useLoading = true,
+    bool useToken = false,
+    bool useSnackbar = true,
+    Map<String, String>? customHeader,
+    String? customBaseUrl,
+    bool useClearData = true,
+    int? connectTimeout,
+  }) async {
+    var _net = await checkNetwork();
+
+    try {
+      String fileName = file.path.split('/').last;
+      data.profilePhotoPath = await MultipartFile.fromFile(file.path, filename: fileName);
+      FormData formData = FormData.fromMap(data.toJsonSend());
+
+      BaseOptions testData = _baseDioOption(customBaseUrl: customBaseUrl, connectTimeout: connectTimeout);
+      print(testData.baseUrl);
+
+      var _execute = Dio(_baseDioOption(customBaseUrl: customBaseUrl, connectTimeout: connectTimeout)).post(
+        url,
+        data: formData,
+        options: Options(
+          headers: (useToken
+              ? {
+                  "Content-Type": 'application/json',
+                  "Authorization": "Bearer ${PRO(context).userData?.token}",
+                }
+              : {
+                  "Content-Type": 'application/json',
+                }),
+        ),
+      );
+      // Execute
+      var _res = await _execute;
+
+      return WrapResponse(message: _res.statusMessage, statusCode: _res.statusCode, data: _res.data['data'], metaData: MetaData.fromJson(_res.data['meta']));
+    } on DioError catch (e) {
+      // print(e.response?.data);
+      if (e.type == DioErrorType.response) {
+        if (e.response?.statusCode == 401) {
+          useSnackbar ? ERROR_SNACK_BAR("${e.response?.statusCode}", _unknowError(e.response?.data) ?? e.response?.statusMessage) : null;
+          useClearData ? PRO(context).clearAllData(context, true) : null;
+          return null;
+        } else if (e.response!.statusCode! >= 400 && e.response!.statusCode! != 401) {
+          useSnackbar ? ERROR_SNACK_BAR("${e.response?.statusCode}", _unknowError(e.response?.data) ?? e.response?.statusMessage) : null;
+          return WrapResponse(message: e.response?.statusMessage ?? e.message, statusCode: e.response?.statusCode ?? 0, data: e.response?.data, metaData: MetaData.fromJson(e.response?.data['meta']));
+        } else {
+          useSnackbar ? ERROR_SNACK_BAR('${e.response?.statusCode}', e.response?.statusMessage) : null;
+
+          return WrapResponse(message: e.response?.statusMessage ?? e.message, statusCode: e.response?.statusCode ?? 0, data: e.response?.data, metaData: MetaData.fromJson(e.response?.data['meta']));
+        }
+      } else if (e.type == DioErrorType.connectTimeout) {
+        useSnackbar ? ERROR_SNACK_BAR("Perhatian", "Koneksi tidak stabil") : null;
+        return WrapResponse(message: "connection timeout", statusCode: e.response?.statusCode ?? 0, metaData: MetaData.fromJson(e.response?.data['meta']));
+      } else if (_net == ConnectivityResult.none) {
+        ERROR_SNACK_BAR("Perhatian", "Pastikan Anda terhubung ke Internet");
+        return WrapResponse(message: "connection timeout", statusCode: 000);
+      } else {
+        ERROR_SNACK_BAR("Perhatian", "Terjadi Kesalahan");
+        return WrapResponse(message: "connection timeout", statusCode: 999);
+      }
+    }
+  }
+
   Future<WrapResponse?> POSTFORMDATA3(
     String url,
     ReimbursementData data,

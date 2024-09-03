@@ -1,28 +1,7 @@
 part of '../pages.dart';
 
-class EditProfilePage extends StatefulWidget {
-  final UserData user;
-  const EditProfilePage({super.key, required this.user});
-
-  @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
-}
-
-class _EditProfilePageState extends State<EditProfilePage> {
-  final _controllerPage = Get.put(AuthEPController());
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Initialize the controllers with initial values
-    _controllerPage.controllerName.text = "${PRO(context).userData?.name}";
-    _controllerPage.controllerEmail.text = "${PRO(context).userData?.email}";
-
-    // Print initial values for verification
-    print("Name Initial Value: ${_controllerPage.controllerName.text}");
-    print("Email Initial Value: ${_controllerPage.controllerEmail.text}");
-  }
+class EditProfilePage extends StatelessWidget {
+  final AuthEPController _controllerPage = Get.put(AuthEPController());
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +45,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
+        body: GetBuilder<AuthEPController>(
+          initState: (state) async{
+            await _controllerPage.initPage(context);
+          },builder: (_){
+            return SingleChildScrollView(
           child: Stack(children: [
             Container(
               width: MediaQuery.of(context).size.width,
@@ -83,144 +66,71 @@ class _EditProfilePageState extends State<EditProfilePage> {
               children: [
                 Center(
                   child: Container(
-                      padding: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      height: 450,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 4,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                          color: widgetColor,
-                          border: null,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                "${PRO(context).userData?.profilePhotoUrl}"),
-                                            fit: BoxFit.cover))),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: widgetColor,
-                                    border: Border.all(
-                                      color: mainColor,
-                                    ),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(15)),
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: 230,
-                                            child: TextField(
-                                              controller: _controllerPage
-                                                  .controllerName,
-                                              decoration: InputDecoration(
-                                                  border: InputBorder.none,
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 10, right: 10)),
-                                            )),
-                                      ],
-                                    ),
+                    padding: const EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width * 0.90,
+                    height: 450,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 4,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                      color: widgetColor,
+                      border: null,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        "${PRO(context).userData?.profilePhotoUrl}"),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: widgetColor,
-                                    border: Border.all(
-                                      color: mainColor,
-                                    ),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(15)),
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: 230,
-                                            child: TextField(
-                                              controller: _controllerPage
-                                                  .controllerEmail,
-                                              decoration: InputDecoration(
-                                                  border: InputBorder.none,
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 10, right: 10)),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )),
+                        ),
+                        SizedBox(height: 30),
+                        buildTextField(
+                            controller: _controllerPage.nameField,
+                            hint: "Enter your name"),
+                        buildTextField(
+                            controller: _controllerPage.emailField,
+                            hint: "Enter your email"),
+                      ],
+                    ),
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
-                  child: Container(
-                    child: SizedBox(
-                      width: 300,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFFF8F56)),
-                        onPressed: () async {
-                          await _controllerPage.edit(context, widget.user);
-                        },
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, color: blackColor),
-                        ),
+                  child: SizedBox(
+                    width: 300,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFFF8F56)),
+                      onPressed: () async {
+                        await _controllerPage.submit(context);
+                      },
+                      child: Text(
+                        "Save",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: blackColor),
                       ),
                     ),
                   ),
@@ -228,7 +138,49 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ],
             )
           ]),
-        ),
+        );
+          }
+        )
+      ),
+    );
+  }
+
+  // Helper method to create text fields to avoid repetition
+  Widget buildTextField(
+      {required TextEditingController controller, required String hint}) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: widgetColor,
+              border: Border.all(
+                color: mainColor,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+            ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 230,
+                    child: TextField(
+                      controller: controller,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: hint,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

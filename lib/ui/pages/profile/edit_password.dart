@@ -1,13 +1,16 @@
 part of '../pages.dart';
 
 class EditPasswordPage extends StatefulWidget {
-  const EditPasswordPage({super.key});
+  EditPasswordPage({super.key});
 
   @override
   State<EditPasswordPage> createState() => _EditPasswordPageState();
 }
 
 class _EditPasswordPageState extends State<EditPasswordPage> {
+  final _controllerPage = Get.put(AuthEditPasswordController());
+  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -113,6 +116,8 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
+                                  width: double
+                                      .infinity, // This ensures the container takes full width
                                   decoration: BoxDecoration(
                                     color: widgetColor,
                                     border: Border.all(
@@ -121,32 +126,38 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(15)),
                                   ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: 210,
-                                            child: TextField(
-                                              decoration: InputDecoration(
-                                                  hintText: 'Current Password',
-                                                  hintStyle: TextStyle(
-                                                      fontSize: 12,
-                                                      fontFamily: 'Poppins'),
-                                                  border: InputBorder.none,
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 10, right: 10)),
-                                            )),
-                                        Icon(
-                                          Icons.remove_red_eye_outlined,
-                                          size: 20,
-                                          color: Colors.black,
+                                  child: Center(
+                                    // This centers the TextField horizontally
+                                    child: SizedBox(
+                                      width: 290,
+                                      child: TextField(
+                                        textAlignVertical: TextAlignVertical
+                                            .center, // This centers the hint text vertically
+                                        obscureText:
+                                            _controllerPage.obsecureText1,
+                                        controller:
+                                            _controllerPage.oldPasswordField,
+                                        decoration: InputDecoration(
+                                          suffixIcon: IconButton(
+                                            icon: Icon(
+                                                _controllerPage.obsecureText1
+                                                    ? Icons.visibility_off
+                                                    : Icons.visibility),
+                                            onPressed: _controllerPage
+                                                .toggleObsecureText1,
+                                          ),
+                                          hintText: 'Current Password',
+                                          hintStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'Poppins',
+                                          ),
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal:
+                                                  10), // Adjusted padding
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -160,6 +171,8 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
+                                  width: double
+                                      .infinity, // This ensures the container takes full width
                                   decoration: BoxDecoration(
                                     color: widgetColor,
                                     border: Border.all(
@@ -168,32 +181,38 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(15)),
                                   ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: 210,
-                                            child: TextField(
-                                              decoration: InputDecoration(
-                                                  hintText: 'New Password',
-                                                  hintStyle: TextStyle(
-                                                      fontSize: 12,
-                                                      fontFamily: 'Poppins'),
-                                                  border: InputBorder.none,
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 10, right: 10)),
-                                            )),
-                                        Icon(
-                                          Icons.remove_red_eye_outlined,
-                                          size: 20,
-                                          color: Colors.black,
-                                        )
-                                      ],
+                                  child: Center(
+                                    // This centers the TextField horizontally
+                                    child: SizedBox(
+                                      width: 290,
+                                      child: TextField(
+                                        textAlignVertical: TextAlignVertical
+                                            .center, // This centers the hint text vertically
+                                        obscureText:
+                                            _controllerPage.obsecureText2,
+                                        controller:
+                                            _controllerPage.passwordField,
+                                        decoration: InputDecoration(
+                                          suffixIcon: IconButton(
+                                            icon: Icon(
+                                                _controllerPage.obsecureText2
+                                                    ? Icons.visibility_off
+                                                    : Icons.visibility),
+                                            onPressed: _controllerPage
+                                                .toggleObsecureText2,
+                                          ),
+                                          hintText: 'New Password',
+                                          hintStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'Poppins',
+                                          ),
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal:
+                                                  10), // Adjusted padding
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -207,6 +226,8 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
+                                  width: double
+                                      .infinity, // This ensures the container takes full width
                                   decoration: BoxDecoration(
                                     color: widgetColor,
                                     border: Border.all(
@@ -215,32 +236,38 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(15)),
                                   ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: 210,
-                                            child: TextField(
-                                              decoration: InputDecoration(
-                                                  hintText: 'Confirm Password',
-                                                  hintStyle: TextStyle(
-                                                      fontSize: 12,
-                                                      fontFamily: 'Poppins'),
-                                                  border: InputBorder.none,
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 10, right: 10)),
-                                            )),
-                                        Icon(
-                                          Icons.remove_red_eye_outlined,
-                                          size: 20,
-                                          color: Colors.black,
+                                  child: Center(
+                                    // This centers the TextField horizontally
+                                    child: SizedBox(
+                                      width: 290,
+                                      child: TextField(
+                                        textAlignVertical: TextAlignVertical
+                                            .center, // This centers the hint text vertically
+                                        obscureText:
+                                            _controllerPage.obsecureText3,
+                                        controller:
+                                            _controllerPage.confirmPasswordField,
+                                        decoration: InputDecoration(
+                                          suffixIcon: IconButton(
+                                            icon: Icon(
+                                                _controllerPage.obsecureText3
+                                                    ? Icons.visibility_off
+                                                    : Icons.visibility),
+                                            onPressed: _controllerPage
+                                                .toggleObsecureText3,
+                                          ),
+                                          hintText: 'Confirm Password',
+                                          hintStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'Poppins',
+                                          ),
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 5,
+                                              horizontal:
+                                                  10), // Adjusted padding
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -273,8 +300,8 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFFFF8F56)),
-                          onPressed: () {
-                            Get.back();
+                          onPressed: () async {
+                            await _controllerPage.submit(context);
                           },
                           child: Text(
                             "Save",

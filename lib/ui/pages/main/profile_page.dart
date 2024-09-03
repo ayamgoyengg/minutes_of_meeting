@@ -197,7 +197,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Get.to(MainPage());
+                      Navigator.of(context).push(PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            MainPage(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      ));
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -213,7 +223,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(CalendarPage());
+                      Navigator.of(context).push(PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            CalendarPage(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      ));
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -237,7 +257,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(FolderPage());
+                      Navigator.of(context).push(PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            FolderPage(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      ));
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -247,17 +277,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(ProfilePage());
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(Icons.settings, color: blackColor, size: 25),
-                      ],
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.settings, color: blackColor, size: 25),
+                    ],
                   ),
                 ],
               ),
@@ -331,7 +356,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      Get.to(EditPhotoPage(user: UserData()));
+                                      _showEnlargedProfilePhoto(context);
+                                      //  Get.to(EditPhotoPage(user: UserData()));
                                     },
                                     child: Stack(
                                       children: [
@@ -345,24 +371,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     image: NetworkImage(
                                                         "${PRO(context).userData?.profilePhotoUrl}"),
                                                     fit: BoxFit.cover))),
-                                        Positioned(
-                                          bottom: 0,
-                                          right: 0,
-                                          child: Container(
-                                            width: 20,
-                                            height: 20,
-                                            decoration: BoxDecoration(
-                                              color: widgetColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                            ),
-                                            child: Icon(
-                                              MdiIcons.plus,
-                                              size: 20,
-                                              color: Colors.black38,
-                                            ),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -423,9 +431,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(EditProfilePage(
-                                  user: UserData(),
-                                ));
+                                Get.to(
+                                  EditProfilePage(),
+                                  transition: Transition
+                                      .fadeIn, // Atur tipe transisi jika diperlukan
+                                  duration: Duration(
+                                      milliseconds: 200), // Durasi transisi
+                                );
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -450,7 +462,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(EditPasswordPage());
+                                Get.to(
+                                  EditPasswordPage(),
+                                  transition: Transition.fadeIn, // Atur tipe transisi jika diperlukan
+                                  duration: Duration(
+                                      milliseconds: 200), // Durasi transisi
+                                );
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -510,6 +527,46 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  // Function to show the enlarged profile photo with a blurred background
+  void _showEnlargedProfilePhoto(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible:
+          true, // Allows dismissing the dialog by tapping outside
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Stack(
+            children: [
+              // Blurred background
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                child: Container(
+                  color: Colors.black
+                      .withOpacity(0.2), // Semi-transparent black background
+                ),
+              ),
+              // Centered enlarged profile photo
+              Center(
+                child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                "${PRO(context).userData?.profilePhotoUrl}"),
+                            fit: BoxFit.cover))),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

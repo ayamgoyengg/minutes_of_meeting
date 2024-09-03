@@ -111,10 +111,12 @@ class _FolderPageState extends State<FolderPage> {
   Widget itemMeeting(StmeetingData item, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(DetailMomPage(
-          item: item,
-          meeting: MeetingData(),
-        ));
+        Get.to(
+          DetailMomPage(item: item, meeting: MeetingData()),
+          transition: Transition.fadeIn, // Atur tipe transisi jika diperlukan
+          duration: Duration(milliseconds: 450), // Durasi transisi
+        );
+        ;
       },
       child: Container(
         width: MediaQuery.of(context).size.width - 40,
@@ -303,7 +305,18 @@ class _FolderPageState extends State<FolderPage> {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        Get.to(MainPage());
+                        Navigator.of(context).push(PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  MainPage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ));
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -319,7 +332,18 @@ class _FolderPageState extends State<FolderPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(CalendarPage());
+                        Navigator.of(context).push(PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  CalendarPage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ));
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -341,21 +365,27 @@ class _FolderPageState extends State<FolderPage> {
                         children: [],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(FolderPage());
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(MdiIcons.folder, color: blackColor, size: 25),
-                        ],
-                      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(MdiIcons.folder, color: blackColor, size: 25),
+                      ],
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(ProfilePage());
+                        Navigator.of(context).push(PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  ProfilePage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ));
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -14,8 +14,7 @@ class _MainPageState extends State<MainPage> {
     return (await showDialog(
             context: context,
             builder: (context) => AlertDialog(
-                  insetPadding:
-                      EdgeInsets.symmetric(horizontal: 30, vertical: 24),
+                  insetPadding: EdgeInsets.zero,
                   title: const Center(
                     child: Text(
                       'Hello',
@@ -23,7 +22,7 @@ class _MainPageState extends State<MainPage> {
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 25),
                     ),
                   ),
-                  content: const Column(
+                  content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
@@ -32,54 +31,118 @@ class _MainPageState extends State<MainPage> {
                             fontWeight: FontWeight.w500, fontSize: 17),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 16),
-                      Divider(
-                        color: Colors.black12,
-                        height: 1, // Adjust height of the divider
-                      ),
-                    ],
-                  ),
-                  actions: <Widget>[
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Row(
                         children: [
-                          TextButton(
-                            child: Text(
-                              'Tidak',
-                              style: TextStyle(color: Colors.red, fontSize: 20),
+                          Container(
+                            width: (MediaQuery.of(context).size.width -
+                                    60 -
+                                    40 -
+                                    8) /
+                                2,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 2, horizontal: 1),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    top: BorderSide(color: Colors.black12),
+                                    right: BorderSide(color: Colors.black12))),
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  'Tidak',
+                                  style:
+                                      TextStyle(color: Colors.red, fontSize: 16),
+                                ),
+                                
+                              ),
                             ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
                           ),
                           Container(
-                            height:
-                                50, // Adjust height of the divider to match button height
-                            width: 1, // Adjust width of the divider as needed
-                            color: Colors.black12,
-                          ),
-                          TextButton(
-                            child: Text(
-                              'Iya',
-                              style:
-                                  TextStyle(color: Colors.blue, fontSize: 20),
+                            width: (MediaQuery.of(context).size.width -
+                                    60 -
+                                    40 -
+                                    8) /
+                                2,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 2, horizontal: 1),
+                            decoration: BoxDecoration(
+                                border: Border(
+                              top: BorderSide(color: Colors.black12),
+                            )),
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  SystemNavigator.pop();
+                                },
+                                child: Text(
+                                  'Iya',
+                                  style:
+                                      TextStyle(color: Colors.blue, fontSize: 16),
+                                ),
+                                
+                              ),
                             ),
-                            onPressed: () {
-                              SystemNavigator.pop();
-                            },
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  // actions: <Widget>[
+                  //   Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 15),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         TextButton(
+                  //           child: Text(
+                  //             'Tidak',
+                  //             style: TextStyle(color: Colors.red, fontSize: 20),
+                  //           ),
+                  //           onPressed: () {
+                  //             Navigator.pop(context);
+                  //           },
+                  //         ),
+                  //         Container(
+                  //           height:
+                  //               20, // Adjust height of the divider to match button height
+                  //           width: 1, // Adjust width of the divider as needed
+                  //           color: Colors.black12,
+                  //         ),
+                  //         TextButton(
+                  //           child: Text(
+                  //             'Iya',
+                  //             style:
+                  //                 TextStyle(color: Colors.blue, fontSize: 20),
+                  //           ),
+                  //           onPressed: () {
+                  //             SystemNavigator.pop();
+                  //           },
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ],
                 ))) ??
         false;
   }
 
   TextEditingController _searchController = TextEditingController();
   String _searchText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // Set the status bar color
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: "#fff".toColor(), // Set your desired color here
+        statusBarIconBrightness:
+            Brightness.dark, // Change icon color (light/dark)
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -102,14 +165,18 @@ class _MainPageState extends State<MainPage> {
 
     return GestureDetector(
       onTap: () {
-        Get.to(DetailMomPage(item: item, meeting: MeetingData()));
+        Get.to(
+          DetailMomPage(item: item, meeting: MeetingData()),
+          transition: Transition.fadeIn, // Atur tipe transisi jika diperlukan
+          duration: Duration(milliseconds: 450), // Durasi transisi
+        );
       },
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white, // Change to your widgetColor
           borderRadius: BorderRadius.circular(25),
         ),
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(right: 15),
         width: 120,
         height: 150,
         child: Center(
@@ -450,7 +517,18 @@ class _MainPageState extends State<MainPage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(CalendarPage());
+                                    Navigator.of(context).push(PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          CalendarPage(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        );
+                                      },
+                                    ));
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -476,7 +554,18 @@ class _MainPageState extends State<MainPage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(FolderPage());
+                                    Navigator.of(context).push(PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          FolderPage(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        );
+                                      },
+                                    ));
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -490,7 +579,18 @@ class _MainPageState extends State<MainPage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(ProfilePage());
+                                    Navigator.of(context).push(PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          ProfilePage(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        );
+                                      },
+                                    ));
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -523,7 +623,7 @@ class _MainPageState extends State<MainPage> {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        Get.to(EditProfilePage(user: UserData()));
+                                        Get.to(EditProfilePage());
                                       },
                                       child: Container(
                                           width: 45,
@@ -574,266 +674,242 @@ class _MainPageState extends State<MainPage> {
                             ),
                           ),
                         ),
-                        body: AnnotatedRegion<SystemUiOverlayStyle>(
-                            value: SystemUiOverlayStyle.light.copyWith(
-                              statusBarColor: whiteColor,
-                              statusBarIconBrightness: Brightness.dark,
-                            ),
-                            child: Column(children: [
-                              Expanded(
-                                  child: ListView(
-                                padding: const EdgeInsets.all(0),
-                                children: [
-                                  Column(children: [
-                                    Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
-                                        height: 161,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
+                        body: Column(children: [
+                          Expanded(
+                              child: ListView(
+                            padding: const EdgeInsets.all(0),
+                            children: [
+                              Column(children: [
+                                Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    height: 161,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: greyColor,
+                                        image: DecorationImage(
+                                            image: AssetImage(backgroundImage),
+                                            fit: BoxFit.cover)),
+                                    child: Stack(children: [
+                                      Container(
+                                          height: 161,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(20),
-                                            color: greyColor,
-                                            image: DecorationImage(
-                                                image:
-                                                    AssetImage(backgroundImage),
-                                                fit: BoxFit.cover)),
-                                        child: Stack(children: [
-                                          Container(
-                                              height: 161,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: "#BCBCBC"
-                                                    .toColor()
-                                                    .withOpacity(0.41),
-                                              ),
-                                              child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    const TimeDisplay(),
-                                                    Text(formattedDate,
-                                                        style:
-                                                            firstStyle.copyWith(
-                                                                fontSize: 15,
-                                                                color: Colors
-                                                                    .black))
-                                                  ]))
-                                        ])),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 10, bottom: 10),
-                                      decoration: BoxDecoration(
-                                        color: '#fefefe'.toColor(),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10)),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      width: 290,
-                                      height: 40,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.search, size: 20),
-                                          SizedBox(width: 5),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 5),
-                                              child: TextField(
-                                                controller: _searchController,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    _searchText =
-                                                        value.toLowerCase();
-                                                  });
-                                                },
-                                                decoration: InputDecoration(
-                                                  hintText:
-                                                      'Search category meeting',
-                                                  hintStyle: TextStyle(
-                                                      fontSize: 12,
-                                                      fontFamily: 'Poppins'),
-                                                  isDense: true,
-                                                  border: InputBorder.none,
-                                                  contentPadding:
-                                                      EdgeInsets.only(left: 10),
-                                                ),
-                                                style: TextStyle(fontSize: 12),
-                                              ),
-                                            ),
+                                                BorderRadius.circular(10),
+                                            color: "#BCBCBC"
+                                                .toColor()
+                                                .withOpacity(0.41),
                                           ),
-                                          SizedBox(width: 5),
-                                          SizedBox(width: 20, height: 20),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 10, bottom: 10),
-                                      width: double.infinity,
-                                      height: 230,
-                                      color: backgroundColor,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 5),
-                                            child: const Text(
-                                              "Categories",
-                                              style: TextStyle(
-                                                fontFamily: "Poppins",
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          GetBuilder<HomeController>(
-                                            builder: (_) {
-                                              List<StmeetingData> filteredList =
-                                                  _controllerPage.stmeetingData
-                                                      .where((item) => item
-                                                          .name!
-                                                          .toLowerCase()
-                                                          .contains(
-                                                              _searchText))
-                                                      .toList();
-                                              return _controllerPage
-                                                      .stmeetingData.isEmpty
-                                                  ? Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 40),
-                                                      child: Center(
-                                                        child: Text(
-                                                            'Anda tidak memiliki kategori meeting'),
-                                                      ),
-                                                    )
-                                                  : Container(
-                                                      height: 160,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      child: ListView.builder(
-                                                        itemCount:
-                                                            filteredList.length,
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        itemBuilder:
-                                                            (BuildContext
-                                                                    context,
-                                                                index) {
-                                                          final item =
-                                                              filteredList[
-                                                                  index];
-                                                          final leftPadding =
-                                                              index == 0
-                                                                  ? 16.0
-                                                                  : 0.0; // defaultMargin value set to 16.0
-                                                          return Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left:
-                                                                        leftPadding),
-                                                            child:
-                                                                itemStmeeting(
-                                                                    context,
-                                                                    item),
-                                                          );
-                                                        },
-                                                      ),
-                                                    );
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.only(bottom: 5),
-                                      width: double.infinity,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20),
-                                            margin: const EdgeInsets.only(
-                                                top: 1, bottom: 1),
-                                            child: const Row(
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.center,
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      "Latest",
-                                                      style: TextStyle(
-                                                        fontFamily: "Poppins",
+                                                const TimeDisplay(),
+                                                Text(formattedDate,
+                                                    style: firstStyle.copyWith(
                                                         fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 5),
-                                                    Text(
-                                                      "Meetings",
-                                                      style: TextStyle(
-                                                        fontFamily: "Poppins",
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                      ),
-                                                    )
-                                                  ],
+                                                        color: Colors.black))
+                                              ]))
+                                    ])),
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 10, bottom: 10),
+                                  decoration: BoxDecoration(
+                                    color: '#fefefe'.toColor(),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  width: 290,
+                                  height: 40,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.search, size: 20),
+                                      SizedBox(width: 5),
+                                      Expanded(
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 5),
+                                          child: TextField(
+                                            controller: _searchController,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _searchText =
+                                                    value.toLowerCase();
+                                              });
+                                            },
+                                            decoration: InputDecoration(
+                                              hintText:
+                                                  'Search category meeting',
+                                              hintStyle: TextStyle(
+                                                  fontSize: 12,
+                                                  fontFamily: 'Poppins'),
+                                              isDense: true,
+                                              border: InputBorder.none,
+                                              contentPadding:
+                                                  EdgeInsets.only(left: 10),
+                                            ),
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 5),
+                                      SizedBox(width: 20, height: 20),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 10),
+                                  width: double.infinity,
+                                  height: 230,
+                                  color: backgroundColor,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 5),
+                                        child: const Text(
+                                          "Categories",
+                                          style: TextStyle(
+                                            fontFamily: "Poppins",
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      GetBuilder<HomeController>(
+                                        builder: (_) {
+                                          List<StmeetingData> filteredList =
+                                              _controllerPage.stmeetingData
+                                                  .where((item) => item.name!
+                                                      .toLowerCase()
+                                                      .contains(_searchText))
+                                                  .toList();
+                                          return _controllerPage
+                                                  .stmeetingData.isEmpty
+                                              ? Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 40),
+                                                  child: Center(
+                                                    child: Text(
+                                                        'Anda tidak memiliki kategori meeting'),
+                                                  ),
+                                                )
+                                              : Container(
+                                                  height: 160,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  child: ListView.builder(
+                                                    itemCount:
+                                                        filteredList.length,
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            index) {
+                                                      final item =
+                                                          filteredList[index];
+                                                      final leftPadding = index ==
+                                                              0
+                                                          ? 16.0
+                                                          : 0.0; // defaultMargin value set to 16.0
+                                                      return Padding(
+                                                        padding: EdgeInsets.only(
+                                                            left: leftPadding),
+                                                        child: itemStmeeting(
+                                                            context, item),
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 5),
+                                  width: double.infinity,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        margin: const EdgeInsets.only(
+                                            top: 1, bottom: 1),
+                                        child: const Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Latest",
+                                                  style: TextStyle(
+                                                    fontFamily: "Poppins",
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
+                                                SizedBox(width: 5),
+                                                Text(
+                                                  "Meetings",
+                                                  style: TextStyle(
+                                                    fontFamily: "Poppins",
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w300,
+                                                  ),
+                                                )
                                               ],
                                             ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          GetBuilder<HomeController>(
-                                            initState: (state) async {
-                                              await _controllerPage
-                                                  .initPage(context);
-                                            },
-                                            builder: (_) {
-                                              return Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 10),
-                                                child: _controllerPage
-                                                        .meetingData.isEmpty
-                                                    ? Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 40),
-                                                        child: Text(
-                                                            'Anda tidak memiliki catatan meeting'),
-                                                      )
-                                                    : listMeeting(context),
-                                              );
-                                            },
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 70),
-                                  ]),
-                                ],
-                              )),
-                            ])));
+                                      const SizedBox(height: 5),
+                                      GetBuilder<HomeController>(
+                                        initState: (state) async {
+                                          await _controllerPage
+                                              .initPage(context);
+                                        },
+                                        builder: (_) {
+                                          return Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: _controllerPage
+                                                    .meetingData.isEmpty
+                                                ? Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 40),
+                                                    child: Text(
+                                                        'Anda tidak memiliki catatan meeting'),
+                                                  )
+                                                : listMeeting(context),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 70),
+                              ]),
+                            ],
+                          )),
+                        ]));
                   })))),
     );
   }

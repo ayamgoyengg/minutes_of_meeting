@@ -9,7 +9,7 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   final _controllerPage = Get.put(CalendarPageController());
-  
+
   Future<bool> _onWillPop() async {
     return (await showDialog(
             context: context,
@@ -103,30 +103,29 @@ class _CalendarPageState extends State<CalendarPage> {
 
     // Ensure meetingData is not null and convert it to a list of Meeting objects
     final meetings = meetingData.map((meeting) {
-          // Extract the date information
-          String? dateString = meeting.date;
+      // Extract the date information
+      String? dateString = meeting.date;
 
-          // Konversi string tanggal menjadi objek DateTime
-          DateTime date = DateTime.parse(dateString!);
+      // Konversi string tanggal menjadi objek DateTime
+      DateTime date = DateTime.parse(dateString!);
 
-          // Format tahun, bulan, dan hari sebagai integer
-          int year = date.year;
-          int month = date.month;
-          int day = date.day;
+      // Format tahun, bulan, dan hari sebagai integer
+      int year = date.year;
+      int month = date.month;
+      int day = date.day;
 
-          // Buat objek DateTime untuk startDate dan endDate
-          final startDate = DateTime(year, month, day, 0, 0, 0);
-          final endDate = DateTime(
-              year, month, day, 23, 59, 59); // Menggunakan waktu akhir hari
+      // Buat objek DateTime untuk startDate dan endDate
+      final startDate = DateTime(year, month, day, 0, 0, 0);
+      final endDate = DateTime(
+          year, month, day, 23, 59, 59); // Menggunakan waktu akhir hari
 
-          return Meeting(
-            eventName:
-                'Meeting ke- ${meeting.title} (${meeting.stmeeting?.name})',
-            from: startDate,
-            to: endDate,
-            background: _generateRandomColor(randomColors, random),
-          );
-        }).toList();
+      return Meeting(
+        eventName: 'Meeting ke- ${meeting.title} (${meeting.stmeeting?.name})',
+        from: startDate,
+        to: endDate,
+        background: _generateRandomColor(randomColors, random),
+      );
+    }).toList();
 
     return _DataSource(meetings);
   }
@@ -253,7 +252,18 @@ class _CalendarPageState extends State<CalendarPage> {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        Get.to(MainPage());
+                        Navigator.of(context).push(PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  MainPage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ));
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -267,21 +277,16 @@ class _CalendarPageState extends State<CalendarPage> {
                         ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(CalendarPage());
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            MdiIcons.calendar,
-                            color: blackColor,
-                            size: 25,
-                          ),
-                        ],
-                      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          MdiIcons.calendar,
+                          color: blackColor,
+                          size: 25,
+                        ),
+                      ],
                     ),
                     GestureDetector(
                       onTap: () {},
@@ -293,7 +298,18 @@ class _CalendarPageState extends State<CalendarPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(FolderPage());
+                        Navigator.of(context).push(PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  FolderPage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ));
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -305,7 +321,18 @@ class _CalendarPageState extends State<CalendarPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(ProfilePage());
+                        Navigator.of(context).push(PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          ProfilePage(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        );
+                                      },
+                                    ));
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

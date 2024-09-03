@@ -2,7 +2,6 @@ part of "../pages.dart";
 
 class AuthForgotPassword extends StatelessWidget {
   AuthForgotPassword({Key? key}) : super(key: key);
-
   final _controllerPage = Get.put(AuthForgotPasswordController());
 
   @override
