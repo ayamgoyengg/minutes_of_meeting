@@ -39,8 +39,6 @@ import 'package:http/http.dart' as http;
 
 part 'detail/create_mom1.dart';
 part 'detail/create_mom.dart';
-part 'detail/detail_report_page.dart';
-part 'detail/detail_warnletter_page.dart';
 part 'general_page.dart';
 part 'main/calendar_page.dart';
 part 'main/main_page.dart';
