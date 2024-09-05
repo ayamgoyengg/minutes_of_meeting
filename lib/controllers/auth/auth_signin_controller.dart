@@ -4,12 +4,18 @@ class AuthSignInController extends GetxController {
   bool checkTnC = false;
   String appVersion = "";
   String imei = "";
+  bool loadingWidget = false;
 
   Widget? validateEmail, validatePassword;
   bool obsecureText = true;
 
   TextEditingController emailField = TextEditingController();
   TextEditingController passwodField = TextEditingController();
+
+  void handleLoadingWidget() {
+    loadingWidget = !loadingWidget;
+    update();
+  }
 
   void toggleObsecureText() {
     obsecureText = !obsecureText;
@@ -36,20 +42,23 @@ class AuthSignInController extends GetxController {
     bool checkEmailValid = GetUtils.isEmail(emailField.text);
     if (checkTnC == false) {
       snackBarsError(
-          message:
-            PRO(context).selectedCategory == "English" 
-              ? 'You must agree to the Terms and Conditions in order to use this application' 
-              : (PRO(context).selectedCategory == "Chinese"
-                  ? 'You must agree to the Terms and Conditions in order to use this application'
-                  : 'Anda harus mensetujui Syarat dan Ketentuan yang berlaku untuk dapat menggunakan aplikasi ini'),
-              );
+        message: PRO(context).selectedCategory == "English"
+            ? 'You must agree to the Terms and Conditions in order to use this application'
+            : (PRO(context).selectedCategory == "Chinese"
+                ? 'You must agree to the Terms and Conditions in order to use this application'
+                : 'Anda harus mensetujui Syarat dan Ketentuan yang berlaku untuk dapat menggunakan aplikasi ini'),
+      );
       return;
     }
     if (checkEmailValid == true) {
-      var payload = UserLogin(email: emailField.text, password: passwodField.text);
+      var payload =
+          UserLogin(email: emailField.text, password: passwodField.text);
       log(payload.toJson().toString());
-      WrapResponse? resData = await Api().POSTFORMDATA(API_SIGNIN, payload.toJson(), context, useSnackbar: false);
+      WrapResponse? resData = await Api().POSTFORMDATA(
+          API_SIGNIN, payload.toJson(), context,
+          useSnackbar: false);
       if (resData?.statusCode == 200) {
+        handleLoadingWidget();
         emailField.clear();
         passwodField.clear();
         update();
@@ -59,21 +68,21 @@ class AuthSignInController extends GetxController {
         print(PRO(context).userData?.toJson().toString());
         Get.offAll(() => MainPage());
       } else {
-        snackBarsError(message: 
-          PRO(context).selectedCategory == "English" 
-              ? "Sorry, wrong username or password" 
+        snackBarsError(
+          message: PRO(context).selectedCategory == "English"
+              ? "Sorry, wrong username or password"
               : (PRO(context).selectedCategory == "Chinese"
                   ? "Sorry, wrong username or password"
                   : 'Maaf username atau password salah'),
         );
       }
     } else {
-      snackBars(message: 
-        PRO(context).selectedCategory == "English" 
-              ? "Please enter email correctly" 
-              : (PRO(context).selectedCategory == "Chinese"
-                  ? "Please enter email correctly"
-                  : 'Tolong masukkan email dengan benar'),
+      snackBars(
+        message: PRO(context).selectedCategory == "English"
+            ? "Please enter email correctly"
+            : (PRO(context).selectedCategory == "Chinese"
+                ? "Please enter email correctly"
+                : 'Tolong masukkan email dengan benar'),
       );
     }
   }
@@ -97,4 +106,3 @@ class AuthSignInController extends GetxController {
     getImei();
   }
 }
-

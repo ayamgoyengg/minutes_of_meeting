@@ -135,9 +135,18 @@ class SignInPage extends StatelessWidget {
                   ),
                 ),
               ),
-              child: Text("Login",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, color: Colors.black)),
+              child: Stack(
+                children: [
+                  _controllerPage.loadingWidget == true
+                      ? Center(child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ))
+                      : Text("Login",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black)),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 30),
@@ -152,11 +161,7 @@ class SignInPage extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),
-      title: PRO(context).selectedCategory == "English"
-          ? "Sign In"
-          : (PRO(context).selectedCategory == "Chinese"
-              ? "Sign In"
-              : "Sign In"),
+      title: "Sign In",
       home: RefreshIndicator(
         onRefresh: () async {
           await _controllerPage.initPage(context);

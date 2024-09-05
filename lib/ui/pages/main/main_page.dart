@@ -14,12 +14,20 @@ class _MainPageState extends State<MainPage> {
     return (await showDialog(
             context: context,
             builder: (context) => AlertDialog(
+                  backgroundColor: ui.Color.fromARGB(220, 255, 255, 255),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.circular(
+                        8.0), // Set the desired border radius
+                  ),
                   insetPadding: EdgeInsets.zero,
+                  contentPadding: EdgeInsets.only(bottom: 15),
+                  titlePadding: EdgeInsets.only(top: 25),
                   title: const Center(
                     child: Text(
                       'Hello',
                       style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 25),
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                     ),
                   ),
                   content: Column(
@@ -27,21 +35,18 @@ class _MainPageState extends State<MainPage> {
                     children: [
                       Text(
                         'Keluar dari aplikasi?',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 17),
+                        style: firstStyle.copyWith(
+                            fontSize: 13, color: Colors.black),
                         textAlign: TextAlign.center,
                       ),
+                      const SizedBox(height: 20),
                       Row(
                         children: [
                           Container(
-                            width: (MediaQuery.of(context).size.width -
-                                    60 -
-                                    40 -
-                                    8) /
-                                2,
+                            width: (MediaQuery.of(context).size.width - 40) / 2,
                             padding: const EdgeInsets.symmetric(
                                 vertical: 2, horizontal: 1),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 border: Border(
                                     top: BorderSide(color: Colors.black12),
                                     right: BorderSide(color: Colors.black12))),
@@ -50,21 +55,22 @@ class _MainPageState extends State<MainPage> {
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text(
-                                  'Tidak',
-                                  style:
-                                      TextStyle(color: Colors.red, fontSize: 16),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
                                 ),
-                                
                               ),
                             ),
                           ),
                           Container(
-                            width: (MediaQuery.of(context).size.width -
-                                    60 -
-                                    40 -
-                                    8) /
-                                2,
+                            width: (MediaQuery.of(context).size.width - 40) / 2,
                             padding: const EdgeInsets.symmetric(
                                 vertical: 2, horizontal: 1),
                             decoration: BoxDecoration(
@@ -76,12 +82,15 @@ class _MainPageState extends State<MainPage> {
                                 onTap: () {
                                   SystemNavigator.pop();
                                 },
-                                child: Text(
-                                  'Iya',
-                                  style:
-                                      TextStyle(color: Colors.blue, fontSize: 16),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Text(
+                                    'Ok',
+                                    style: TextStyle(
+                                        color: Colors.blue, fontSize: 16),
+                                  ),
                                 ),
-                                
                               ),
                             ),
                           ),
@@ -89,41 +98,6 @@ class _MainPageState extends State<MainPage> {
                       ),
                     ],
                   ),
-                  // actions: <Widget>[
-                  //   Container(
-                  //     padding: EdgeInsets.symmetric(horizontal: 15),
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //       children: [
-                  //         TextButton(
-                  //           child: Text(
-                  //             'Tidak',
-                  //             style: TextStyle(color: Colors.red, fontSize: 20),
-                  //           ),
-                  //           onPressed: () {
-                  //             Navigator.pop(context);
-                  //           },
-                  //         ),
-                  //         Container(
-                  //           height:
-                  //               20, // Adjust height of the divider to match button height
-                  //           width: 1, // Adjust width of the divider as needed
-                  //           color: Colors.black12,
-                  //         ),
-                  //         TextButton(
-                  //           child: Text(
-                  //             'Iya',
-                  //             style:
-                  //                 TextStyle(color: Colors.blue, fontSize: 20),
-                  //           ),
-                  //           onPressed: () {
-                  //             SystemNavigator.pop();
-                  //           },
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ],
                 ))) ??
         false;
   }
@@ -191,19 +165,19 @@ class _MainPageState extends State<MainPage> {
                     Center(
                       child: Container(
                         padding: const EdgeInsets.all(10),
-                        width: 70,
-                        height: 70,
+                        width: 75,
+                        height: 75,
                         decoration: BoxDecoration(
                           color:
                               mainColor, // Change to your widgetBackgroundColor
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                     ),
                     Center(
                       child: Container(
-                        width: 65,
-                        height: 65,
+                        width: 70,
+                        height: 70,
                         padding: const EdgeInsets.all(2),
                         child: Image.asset(
                           randomImage,
@@ -401,75 +375,139 @@ class _MainPageState extends State<MainPage> {
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        insetPadding: EdgeInsets.symmetric(
-                                            horizontal: 30, vertical: 24),
-                                        title: const Center(
-                                          child: Text(
-                                            'Hello',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 25),
+                                      return Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child: AlertDialog(
+                                          backgroundColor: ui.Color.fromARGB(
+                                              220, 255, 255, 255),
+                                          shape: RoundedRectangleBorder(
+                                            side:
+                                                BorderSide(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(
+                                                8.0), // Set the desired border radius
                                           ),
-                                        ),
-                                        content: const Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              'Apakah anda ingin membuat Minutes of Meeting untuk Klien ini untuk pertama kalinya?',
+                                          insetPadding: EdgeInsets.zero,
+                                          contentPadding:
+                                              EdgeInsets.only(bottom: 15),
+                                          titlePadding:
+                                              EdgeInsets.only(top: 25),
+                                          title: const Center(
+                                            child: Text(
+                                              'Confirm Dialog',
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 17),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            SizedBox(height: 16),
-                                            Divider(
-                                              color: Colors.black12,
-                                              height:
-                                                  1, // Adjust height of the divider
-                                            ),
-                                          ],
-                                        ),
-                                        actions: <Widget>[
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 15),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                TextButton(
-                                                  child: Text(
-                                                    'Iya',
-                                                    style: TextStyle(
-                                                        color: Colors.blue,
-                                                        fontSize: 20),
-                                                  ),
-                                                  onPressed: () {
-                                                    Get.to(CreateMom1Page());
-                                                  },
-                                                ),
-                                                Container(
-                                                  height:
-                                                      50, // Adjust height of the divider to match button height
-                                                  width:
-                                                      1, // Adjust width of the divider as needed
-                                                  color: Colors.black12,
-                                                ),
-                                                TextButton(
-                                                  child: Text('Tidak',
-                                                      style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontSize: 20)),
-                                                  onPressed: () {
-                                                    Get.to(CreateMomPage());
-                                                  },
-                                                ),
-                                              ],
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 20),
                                             ),
                                           ),
-                                        ],
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: Text(
+                                                  'Apakah anda ingin membuat Minutes of Meeting untuk pertama-kalinya?',
+                                                  style: firstStyle.copyWith(
+                                                      fontSize: 13,
+                                                      color: Colors.black),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 20),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        (MediaQuery.of(context)
+                                                                    .size
+                                                                    .width -
+                                                                40) /
+                                                            2,
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 2,
+                                                        horizontal: 1),
+                                                    decoration: const BoxDecoration(
+                                                        border: Border(
+                                                            top: BorderSide(
+                                                                color: Colors
+                                                                    .black12),
+                                                            right: BorderSide(
+                                                                color: Colors
+                                                                    .black12))),
+                                                    child: Center(
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              CreateMomPage());
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical:
+                                                                      8.0),
+                                                          child: Text(
+                                                            'No',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.blue,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 16),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width:
+                                                        (MediaQuery.of(context)
+                                                                    .size
+                                                                    .width -
+                                                                40) /
+                                                            2,
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 2,
+                                                        horizontal: 1),
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                      top: BorderSide(
+                                                          color:
+                                                              Colors.black12),
+                                                    )),
+                                                    child: Center(
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              CreateMom1Page());
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical:
+                                                                      8.0),
+                                                          child: Text(
+                                                            'Yes',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.blue,
+                                                                fontSize: 16),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       );
                                     });
                               },
@@ -698,7 +736,7 @@ class _MainPageState extends State<MainPage> {
                                               MediaQuery.of(context).size.width,
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(20),
                                             color: "#BCBCBC"
                                                 .toColor()
                                                 .withOpacity(0.41),
@@ -717,8 +755,8 @@ class _MainPageState extends State<MainPage> {
                                               ]))
                                     ])),
                                 Container(
-                                  margin: const EdgeInsets.only(
-                                      top: 10, bottom: 10),
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
                                   decoration: BoxDecoration(
                                     color: '#fefefe'.toColor(),
                                     borderRadius: const BorderRadius.all(
@@ -726,7 +764,7 @@ class _MainPageState extends State<MainPage> {
                                   ),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10),
-                                  width: 290,
+                                  width: MediaQuery.of(context).size.width,
                                   height: 40,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -756,7 +794,8 @@ class _MainPageState extends State<MainPage> {
                                               isDense: true,
                                               border: InputBorder.none,
                                               contentPadding:
-                                                  EdgeInsets.only(left: 10),
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 20),
                                             ),
                                             style: TextStyle(fontSize: 12),
                                           ),
@@ -779,7 +818,7 @@ class _MainPageState extends State<MainPage> {
                                     children: [
                                       Container(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 5),
+                                            horizontal: 20, vertical: 10),
                                         child: const Text(
                                           "Categories",
                                           style: TextStyle(
@@ -879,7 +918,6 @@ class _MainPageState extends State<MainPage> {
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(height: 5),
                                       GetBuilder<HomeController>(
                                         initState: (state) async {
                                           await _controllerPage

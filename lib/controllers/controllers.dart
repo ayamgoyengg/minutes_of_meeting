@@ -18,37 +18,19 @@ import 'package:minutes_of_meeting/services/a_services.dart';
 import 'package:minutes_of_meeting/ui/pages/pages.dart';
 import 'package:minutes_of_meeting/ui/widgets/a_widgets.dart';
 import 'package:minutes_of_meeting/utilities/a_utilities.dart';
-
-// import 'package:location/location.dart';
-
 part 'auth/auth_signin_controller.dart';
-part 'detail/dca_controller.dart';
-part 'detail/detail_payroll_controller.dart';
 part 'global_controller.dart';
 part 'main/annual_controller.dart';
-part 'option/option_calender_controller.dart';
 part 'option/option_createmeeting.dart';
-part 'option/option_overtime_controller.dart';
-part 'option/option_payroll_controller.dart';
 part 'option/option_edit_mom_controller.dart';
-part 'option/option_inventory_controller.dart';
-part 'option/option_inventoryreq_controller.dart';
-part 'main/report_controller.dart';
-part 'option/option_whistleblowing_controller.dart';
-// part 'option/option_forgetattendance_controller.dart';
-part 'option/option_knowladge_controller.dart';
+part 'main/setting_controller.dart';
 part 'main/home_controller.dart';
 part 'main/calendar_controller.dart';
-part 'detail/detail_knowladge.dart';
-part 'option/option_reimbursement_controller.dart';
-part 'option/option_contact_controller.dart';
 part 'option/option_tnc_controller.dart';
 part 'auth/auth_forgot_password_controller.dart';
 part 'auth/auth_edit_password_controller.dart';
 part 'auth/auth_edit_profile_controller.dart';
 part 'auth/auth_edit_photo_controller.dart';
 part 'auth/auth_user_data.dart';
-part 'option/option_notification_controller.dart';
-
 part 'option/option_stmeeting_controller.dart';
 part 'option/option_meeting_controller.dart';
