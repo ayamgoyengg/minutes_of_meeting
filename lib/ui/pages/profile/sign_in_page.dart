@@ -212,7 +212,7 @@ class SignInPage extends StatelessWidget {
                         children: [
                           Center(
                             child: Text(
-                                "Ver 1.0.0 ${_controllerPage.appVersion}",
+                                "Ver ${_controllerPage.appVersion}",
                                 style: blackFontStyle2.copyWith(fontSize: 10)),
                           ),
                           Center(

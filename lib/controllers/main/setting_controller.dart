@@ -1,6 +1,6 @@
 part of '../controllers.dart';
 
-class ReportController extends GetxController {
+class SettingController extends GetxController {
   bool loadingWidget = false;
 
   void handleLoadingWidget() {
@@ -8,79 +8,66 @@ class ReportController extends GetxController {
     update();
   }
 
-  List<HikData> hikData = [];
+  List<StmeetingData> stmeetingData = [];
+  List<MeetingData> meetingData = [];
 
-  Future<void> getHik(BuildContext context, int selectedMonth, int selectedYear) async {
+
+  Future<void> getStmeeting(BuildContext context) async {
     try {
       handleLoadingWidget();
-      String selectedMonthString = selectedMonth.toString();
-      if (selectedMonth.toString().length == 1) {
-        selectedMonthString = '0$selectedMonth';
-      }
-      print('$API_HIK?tgl=$selectedYear-$selectedMonthString');
-
-      WrapResponse? resData = await Api().GET('$API_HIK?tgl=$selectedYear-$selectedMonthString', context, useSnackbar: false, useToken: true, useLoading: false);
-      log(resData?.statusCode.toString() ?? '');
+      WrapResponse? resData = await Api().GET(API_STMEETING, context, useSnackbar: false, useToken: true);
       if (resData?.statusCode == 200) {
-        log(resData?.data['data'].toString() ?? '');
         if (resData?.data['data'] != null) {
-          List<HikData> listHikData = [];
+          List<StmeetingData> listStmeetingData = [];
           for (var element1 in resData?.data['data']) {
-            listHikData.add(HikData.fromJson(element1));
+            listStmeetingData.add(StmeetingData.fromJson(element1));
           }
-          listHikData.sort((a, b) => (b.idHik ?? 0).compareTo(a.idHik ?? 0));
-          hikData = listHikData;
+          listStmeetingData.sort((a, b) => (b.idStmeeting ?? 0).compareTo(a.idStmeeting ?? 0));
+          stmeetingData = listStmeetingData;
           update();
+          // print(resData);
         }
-        handleLoadingWidget();
-        // snackBarsSuccess(message: "${resData?.metaData?.message ?? 'Berhasil'}");
-      } else {
-        handleLoadingWidget();
-        // snackBarsError(message: "${resData?.metaData?.message ?? 'Gagal'}");
-      }
+      } else {}
+      handleLoadingWidget();
     } catch (e) {
+      handleLoadingWidget();
+
       // snackBarsError(message: 'Something wrong $e');
     }
   }
-
-  // handle Date
-  DateTime now = DateTime.now();
-
-  DateTime? selectedDate;
-  int? selectedMonthGlobal;
-  int? selectedYearGlobal;
-  bool showModal = false;
-  DateRangePickerView selectMode = DateRangePickerView.year;
-
-  ScrollController controllerDataCheckInOut = ScrollController();
-
-  void handleShowModal() {
-    showModal = true;
-    update();
-  }
-
-  Future<void> handleSelectDate(DateRangePickerViewChangedArgs args, context) async {
-    if (args.view == DateRangePickerView.month) {
-      DateTime? selectedDateTime = args.visibleDateRange.startDate;
-      selectedDate = args.visibleDateRange.startDate;
-      selectMode = DateRangePickerView.year;
-      int selectedMonth = DateTime.parse(selectedDateTime.toString()).month;
-      int selectedYear = DateTime.parse(selectedDateTime.toString()).year;
-      selectedMonthGlobal = selectedMonth;
-      selectedYearGlobal = selectedYear;
-      showModal = false;
-      update();
-      await getHik(context, selectedMonth, selectedYear);
+  
+  Future<void> getMeeting(BuildContext context) async {
+  try {
+    handleLoadingWidget();
+    WrapResponse? resData = await Api().GET(API_MEETING, context, useSnackbar: false, useToken: true);
+    if (resData?.statusCode == 200) {
+      if (resData?.data['data'] != null) {
+        List<MeetingData> listMeetingData = [];
+        for (var element1 in resData?.data['data']) {
+          listMeetingData.add(MeetingData.fromJson(element1));
+        }
+        listMeetingData.sort((a, b) => (b.idMeeting ?? 0).compareTo(a.idMeeting ?? 0));
+        // Limit to the 3 most recent entries
+        meetingData = listMeetingData.take(3).toList();
+        update();
+        print(resData);
+        print('Successfully fetched data');
+      }
+    } else {
+      print('Failed to fetch data');
     }
+    handleLoadingWidget();
+  } catch (e) {
+    handleLoadingWidget();
+    // Optional: Handle the error as needed
+    // snackBarsError(message: 'Something went wrong: $e');
   }
+}
+
+
 
   Future<void> initPage(BuildContext context) async {
-    if (selectedMonthGlobal == null && selectedYearGlobal == null) {
-      int selectedMonth = DateTime.parse(now.toString()).month;
-      int selectedYear = DateTime.parse(now.toString()).year;
-      await getHik(context, selectedMonth, selectedYear);
-    } else {
-      await getHik(context, selectedMonthGlobal!, selectedYearGlobal!);
-    }
+    await getMeeting(context);
+    await getStmeeting(context);
   }
 }
